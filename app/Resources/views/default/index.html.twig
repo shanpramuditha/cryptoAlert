@@ -1,0 +1,283 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+
+    <table id="datatable" class="table">
+        <thead>
+        <tr>
+            <th>binance</th>
+            <th>bitpay</th>
+            <th>bitfinix</th>
+            <th>bitstamp</th>
+            <th>bittrex</th>
+            <th>cex</th>
+            <th>exmo</th>
+            <th>hitbit</th>
+            <th>kraken</th>
+            <th>Liqui</th>
+            <th>Livecoin</th>
+            <th>Poloniex</th>
+            <th>wex</th>
+            <th>xbtce</th>
+            <th>yobi</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr id="BTC">
+
+        </tr>
+        </tbody>
+    </table>
+
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        {#
+            binance = 0 -done
+            bitpay = 1 - done
+            bitfinix = 2 - done
+            bitstamp = 3 - done
+            bittrex = 4 - USD not available
+            cex = 5 - done
+            exmo =6 - done
+            hitbit = 7 -done
+            kraken = 8-done
+            Liqui = 9 - done
+            Livecoin = 10 -done
+            Poloniex = 11 -done
+            wex = 12 - done
+            xbtce = 13
+            yobi = 14
+        #}
+        $(function() {
+            var prices = new Array(15);
+            prices.fill({});
+//            setInterval(Bitfinix, 5000);
+            setInterval(getData, 10000);
+            setInterval(updateTable, 5000);
+
+
+
+            function updateTable() {
+                var btc = '';
+                for(var i=0; i<prices.length; i++) {
+                    if(typeof prices[i].BTC != 'undefined'){
+                        btc += "<td>"+prices[i].BTC+"</td>"
+                    }else{
+                        btc += "<td></td>"
+                    }
+                }
+                $('#BTC').html(btc)
+                console.log('table updated');
+            }
+
+            function getData() {
+
+                /**
+                 *binance
+                 */
+
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('binance') }}",
+                    cache: false,
+                    success: function(data){
+                        prices[0] = data
+                    }
+                });
+
+                /**
+                 *bitpay
+                 */
+
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('bitpay') }}",
+                    cache: false,
+                    success: function(data){
+                        prices[1] = data
+                    }
+                });
+
+                /**
+                 *bitfinix
+                 */
+
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('bitfinex') }}",
+                    cache: false,
+                    success: function(data){
+                        prices[2] = data
+                    }
+                });
+
+                /**
+                 *bitstamp
+                 */
+
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('bitstamp') }}",
+                    cache: false,
+                    success: function(data){
+                        prices[3] = data
+                    }
+                });
+
+                /**
+                 * cex
+                 */
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('cex') }}",
+                    cache: false,
+                    success: function(data){
+                        prices[5] = data
+                    }
+                });
+
+                /**
+                 * exmo
+                 */
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('exmo') }}",
+                    cache: false,
+                    success: function(data){
+                        prices[6] = data
+                    }
+                });
+
+                /**
+                 * hitbtc
+                 */
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('hitbtc') }}",
+                    cache: false,
+                    success: function(data){
+                        prices[7] = data
+                    }
+                });
+
+
+
+                /**
+                 * kraken
+                 */
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('kraken') }}",
+                    cache: false,
+                    success: function(data){
+                        prices[8] = data
+                    }
+                });
+
+                /**
+                 * liqui
+                 */
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('liqui') }}",
+                    cache: false,
+                    success: function(data){
+                        prices[9] = data
+                    }
+                });
+
+                /**
+                 * livecoin
+                 */
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('livecoin') }}",
+                    cache: false,
+                    success: function(data){
+                        prices[10] = data
+                    }
+                });
+
+
+                /**
+                 * poloneix
+                 */
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('poloniex') }}",
+                    cache: false,
+                    success: function(data){
+                        prices[11] = data
+                    }
+                });
+
+                /**
+                 * wex
+                 */
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('wex') }}",
+                    cache: false,
+                    success: function(data){
+                        prices[12] = data
+                    }
+                });
+
+                /**
+                 * xbtce
+                 */
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('xbtce') }}",
+                    cache: false,
+                    success: function(data){
+                        prices[13] = data
+                    }
+                });
+
+
+
+
+
+
+
+
+
+
+            }
+
+            function createTable(tableData) {
+                var table = document.createElement('table');
+                var tableBody = document.createElement('tbody');
+
+                tableData.forEach(function(rowData) {
+                    var row = document.createElement('tr');
+
+                    rowData.forEach(function(cellData) {
+                        var cell = document.createElement('td');
+                        cell.appendChild(document.createTextNode(cellData));
+                        row.appendChild(cell);
+                    });
+
+                    tableBody.appendChild(row);
+                });
+
+                table.appendChild(tableBody);
+                document.body.appendChild(table);
+            }
+
+
+        });
+    </script>
+{% endblock %}
+
