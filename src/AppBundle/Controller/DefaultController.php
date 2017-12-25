@@ -92,13 +92,13 @@ class DefaultController extends Controller
      * @Route("/api/bittrex",name="bittrex")
      */
     public function bittrex(Request $request){
-        $pairs = array('BTC'=>'BTC-USD');
+        $pairs = array('BTC'=>'USDT-BTC');
         $response = array();
         foreach ($pairs as $key=>$pair){
-            $response[$key] = (float)$this->curl("https://bittrex.com/api/v1.1/public/getticker?market=".$pair)['Last'];
+            $response[$key] = (float)$this->curl("https://bittrex.com/api/v1.1/public/getticker?market=".$pair)['result']['Last'];
         }
 
-        return new JsonResponse('done');
+        return new JsonResponse($response);
     }
 
     /**

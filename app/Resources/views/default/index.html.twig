@@ -7,6 +7,7 @@
     <table id="datatable" class="table">
         <thead>
         <tr>
+            <th>Currency</th>
             <th>binance</th>
             <th>bitpay</th>
             <th>bitfinix</th>
@@ -46,7 +47,7 @@
             bitpay = 1 - done
             bitfinix = 2 - done
             bitstamp = 3 - done
-            bittrex = 4 - USD not available
+            bittrex = 4 - done
             cex = 5 - done
             exmo =6 - done
             hitbit = 7 -done
@@ -68,7 +69,7 @@
 
 
             function updateTable() {
-                var btc = '';
+                var btc = '<td>BTC</td>';
                 for(var i=0; i<prices.length; i++) {
                     if(typeof prices[i].BTC != 'undefined'){
                         btc += "<td>"+prices[i].BTC+"</td>"
@@ -131,6 +132,19 @@
                     cache: false,
                     success: function(data){
                         prices[3] = data
+                    }
+                });
+
+                /**
+                 *bittrex
+                 */
+
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('bittrex') }}",
+                    cache: false,
+                    success: function(data){
+                        prices[4] = data
                     }
                 });
 
