@@ -72,7 +72,7 @@
                 var btc = '<td>BTC</td>';
                 for(var i=0; i<prices.length; i++) {
                     if(typeof prices[i].BTC != 'undefined'){
-                        btc += "<td>"+prices[i].BTC+"</td>"
+                        btc += "<td>"+moneyFormat(prices[i].BTC)+"</td>"
                     }else{
                         btc += "<td></td>"
                     }
@@ -268,6 +268,15 @@
 
 
 
+            }
+
+            function moneyFormat(price) {
+                const pieces = parseFloat(price).toFixed(2).split('')
+                var ii = pieces.length - 3
+                while ((ii-=3) > 0) {
+                    pieces.splice(ii, 0, ',')
+                }
+                return pieces.join('')
             }
 
             function createTable(tableData) {
