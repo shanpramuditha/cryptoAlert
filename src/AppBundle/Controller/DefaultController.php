@@ -24,7 +24,7 @@ class DefaultController extends Controller
      * @Route("/api/bitstamp",name="bitstamp")
      */
     public function bitstamp(Request $request){
-        $pairs = array('BTC'=>'btcusd');
+        $pairs = array('BTC'=>'btcusd','BCH'=>'bchusd','ETH'=>'ethusd');
         $response = array();
         foreach ($pairs as $key => $pair){
             $response[$key] = (float)$this->curl("https://www.bitstamp.net/api/v2/ticker/".$pair."/")['last'];
@@ -38,7 +38,7 @@ class DefaultController extends Controller
      * @Route("/api/kraken",name="kraken")
      */
     public function kraken(Request $request){
-        $pairs = array('BTC'=>'XXBTZUSD');
+        $pairs = array('BTC'=>'XXBTZUSD','BCH'=>'BCHUSD','ETH'=>'XETHZUSD');
         $parameter = 'pair='.implode(",",$pairs);
         $response = array();
         $return = $this->curl("https://api.kraken.com/0/public/Ticker?".$parameter)['result'];
@@ -66,7 +66,7 @@ class DefaultController extends Controller
      * @Route("/api/poloniex",name="poloniex")
      */
     public function poloniex(Request $request){
-        $pairs = array('BTC'=>'USDT_BTC');
+        $pairs = array('BTC'=>'USDT_BTC','BCH'=>'USDT_BCH','ETH'=>'USDT_ETH');
         $return = $this->curl("https://poloniex.com/public?command=returnTicker");
         $response = array();
         foreach ($pairs as $key =>$pair){
@@ -79,7 +79,7 @@ class DefaultController extends Controller
      * @Route("/api/bitfinex",name="bitfinex")
      */
     public function bitfinex(Request $request){
-        $pairs = array('BTC'=>'btcusd');
+        $pairs = array('BTC'=>'btcusd','BCH'=>'bchusd','ETH'=>'ethusd');
         $response = array();
         foreach ($pairs as $key => $pair){
             $response[$key] = (float)$this->curl("https://api.bitfinex.com/v1/pubticker/".$pair)['last_price'];
@@ -92,7 +92,7 @@ class DefaultController extends Controller
      * @Route("/api/bittrex",name="bittrex")
      */
     public function bittrex(Request $request){
-        $pairs = array('BTC'=>'USDT-BTC');
+        $pairs = array('BTC'=>'USDT-BTC','ETH'=>'USDT-ETH');
         $response = array();
         foreach ($pairs as $key=>$pair){
             $response[$key] = (float)$this->curl("https://bittrex.com/api/v1.1/public/getticker?market=".$pair)['result']['Last'];
@@ -111,6 +111,10 @@ class DefaultController extends Controller
         foreach ($this->curl("https://cex.io/api/last_prices/USD")['data'] as $row){
             if($row['symbol1']=='BTC'){
                 $response['BTC'] = (float)$row['lprice'];
+            }elseif ($row['symbol1']=='BCH'){
+                $response['BCH'] = (float)$row['lprice'];
+            }elseif ($row['symbol1']=='ETH'){
+                $response['ETH'] = (float)$row['lprice'];
             }
         }
 
@@ -137,6 +141,8 @@ class DefaultController extends Controller
         $return = $this->curl("https://api.exmo.com/v1/ticker/");
         $response = array();
         $response['BTC'] = (float)$return['BTC_USD']['sell_price'];
+        $response['BCH'] = (float)$return['BCH_USD']['sell_price'];
+        $response['ETH'] = (float)$return['ETH_USD']['sell_price'];
 
         return new JsonResponse($response);
     }
@@ -156,7 +162,7 @@ class DefaultController extends Controller
      * @Route("/api/binance",name="binance")
      */
     public function binance(Request $request){
-        $pairs = array('BTC'=>'BTCUSDT');
+        $pairs = array('BTC'=>'BTCUSDT','ETH'=>'ETHUSDT');
         $response = array();
         $return = $this->curl("https://api.binance.com/api/v1/ticker/allPrices");
         foreach ($return as $price){
@@ -189,7 +195,7 @@ class DefaultController extends Controller
      * @Route("/api/hitbtc",name="hitbtc")
      */
     public function hitbtc(Request $request){
-        $pairs = array('BTC'=>'BTCUSD');
+        $pairs = array('BTC'=>'BTCUSD','BCH'=>'BCHUSD','ETH'=>'ETHUSD');
         $response = array();
         $return = $this->curl("https://api.hitbtc.com/api/2/public/ticker");
         foreach ($return as $price){
@@ -208,7 +214,7 @@ class DefaultController extends Controller
      * @Route("/api/livecoin",name="livecoin")
      */
     public function livecoin(Request $request){
-        $pairs = array('BTC'=>'BTC/USD');
+        $pairs = array('BTC'=>'BTC/USD','BCH'=>'BCH/USD','ETH'=>'ETH/USD');
         $response = array();
         $return = $this->curl("https://api.livecoin.net/exchange/ticker");
         foreach ($return as $price){
@@ -227,7 +233,7 @@ class DefaultController extends Controller
      * @Route("/api/wex",name="wex")
      */
     public function wex(Request $request){
-        $pairs = array('BTC'=>'btc_usd');
+        $pairs = array('BTC'=>'btc_usd','BCH'=>'bch_usd','ETH'=>'eth_usd');
         $parameter = implode("-",$pairs);
         $response = array();
         $return = $this->curl("https://wex.nz/api/3/ticker/".$parameter);
@@ -241,7 +247,7 @@ class DefaultController extends Controller
      * @Route("/api/xbtce",name="xbtce")
      */
     public function xbtce(Request $request){
-        $pairs = array('BTC'=>'BTCUSD');
+        $pairs = array('BTC'=>'BTCUSD','BCH'=>'BCHUSD','ETH'=>'ETHUSD');
         $response = array();
         $return = $this->curl("https://cryptottlivewebapi.xbtce.net:8443/api/v1/public/ticker");
         foreach ($return as $price){

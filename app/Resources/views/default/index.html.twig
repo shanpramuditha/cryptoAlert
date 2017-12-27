@@ -29,6 +29,14 @@
         <tr id="BTC">
 
         </tr>
+
+        <tr id="BCH">
+
+        </tr>
+
+        <tr id="ETH">
+
+        </tr>
         </tbody>
     </table>
 
@@ -70,14 +78,33 @@
 
             function updateTable() {
                 var btc = '<td>BTC</td>';
+                var bch = '<td>BCH</td>';
+                var eth = '<td>ETH</td>';
                 for(var i=0; i<prices.length; i++) {
                     if(typeof prices[i].BTC != 'undefined'){
                         btc += "<td>"+moneyFormat(prices[i].BTC)+"</td>"
                     }else{
                         btc += "<td></td>"
                     }
+
+                    if(typeof prices[i].BCH != 'undefined'){
+                        bch += "<td>"+moneyFormat(prices[i].BCH)+"</td>"
+                    }else{
+                        bch += "<td></td>"
+                    }
+
+                    if(typeof prices[i].ETH != 'undefined'){
+                        eth += "<td>"+moneyFormat(prices[i].ETH)+"</td>"
+                    }else{
+                        eth += "<td></td>"
+                    }
+
+
                 }
-                $('#BTC').html(btc)
+                $('#BTC').html(btc);
+                $('#BCH').html(bch);
+                $('#ETH').html(eth);
+
                 console.log('table updated');
             }
 
