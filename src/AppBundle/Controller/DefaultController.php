@@ -24,7 +24,7 @@ class DefaultController extends Controller
      * @Route("/api/bitstamp",name="bitstamp")
      */
     public function bitstamp(Request $request){
-        $pairs = array('BTC'=>'btcusd','BCH'=>'bchusd','ETH'=>'ethusd');
+        $pairs = array('BTC'=>'btcusd','BCH'=>'bchusd','ETH'=>'ethusd','LTC'=>'ltcusd','XRP'=>'xrpusd');
         $response = array();
         foreach ($pairs as $key => $pair){
             $response[$key] = (float)$this->curl("https://www.bitstamp.net/api/v2/ticker/".$pair."/")['last'];
@@ -35,10 +35,24 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/api/bitbay",name="bitbay")
+     */
+    public function bitbay(Request $request){
+        $pairs = array('BTC'=>'BTC/USD','ETH'=>'ETH/USD','LTC'=>'LTC/USD');
+        $response = array();
+        foreach ($pairs as $key => $pair){
+            $response[$key] = (float)$this->curl("https://bitbay.net/API/Public/".$pair."/ticker.json")['last'];
+        }
+
+        return new JsonResponse($response);
+
+    }
+
+    /**
      * @Route("/api/kraken",name="kraken")
      */
     public function kraken(Request $request){
-        $pairs = array('BTC'=>'XXBTZUSD','BCH'=>'BCHUSD','ETH'=>'XETHZUSD');
+        $pairs = array('BTC'=>'XXBTZUSD','BCH'=>'BCHUSD','ETH'=>'XETHZUSD','DSH'=>'DASHUSD','ETC'=>'XETCZUSD','LTC'=>'XLTCZUSD','XMR'=>'XXMRZUSD','XRP'=>'XXRPZUSD','ZEC'=>'XZECZUSD');
         $parameter = 'pair='.implode(",",$pairs);
         $response = array();
         $return = $this->curl("https://api.kraken.com/0/public/Ticker?".$parameter)['result'];
@@ -66,7 +80,7 @@ class DefaultController extends Controller
      * @Route("/api/poloniex",name="poloniex")
      */
     public function poloniex(Request $request){
-        $pairs = array('BTC'=>'USDT_BTC','BCH'=>'USDT_BCH','ETH'=>'USDT_ETH');
+        $pairs = array('BTC'=>'USDT_BTC','BCH'=>'USDT_BCH','ETH'=>'USDT_ETH','DSH'=>'USDT_DASH','ETC'=>'USDT_ETC','LTC'=>'USDT_LTC','XMR'=>'USDT_XMR','ZEC'=>'USDT_ZEC');
         $return = $this->curl("https://poloniex.com/public?command=returnTicker");
         $response = array();
         foreach ($pairs as $key =>$pair){
@@ -76,10 +90,10 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/api/bitfinex",name="bitfinex")
+     * @Route("/api/bitfinix",name="bitfinex")
      */
-    public function bitfinex(Request $request){
-        $pairs = array('BTC'=>'btcusd','BCH'=>'bchusd','ETH'=>'ethusd');
+    public function bitfinix(Request $request){
+        $pairs = array('BTC'=>'btcusd','BCH'=>'bchusd','ETH'=>'ethusd','BTG'=>'btgusd','DSH'=>'dshusd','ETC'=>'etcusd','LTC'=>'ltcusd','XMR'=>'xmrusd','XRP'=>'xrpusd');
         $response = array();
         foreach ($pairs as $key => $pair){
             $response[$key] = (float)$this->curl("https://api.bitfinex.com/v1/pubticker/".$pair)['last_price'];
@@ -92,7 +106,7 @@ class DefaultController extends Controller
      * @Route("/api/bittrex",name="bittrex")
      */
     public function bittrex(Request $request){
-        $pairs = array('BTC'=>'USDT-BTC','ETH'=>'USDT-ETH');
+        $pairs = array('BTC'=>'USDT-BTC','ETH'=>'USDT-ETH','BTG'=>'USDT-BTG','LTC'=>'USDT-LTC','XMR'=>'USDT-XMR','XRP'=>'USDT-XRP');
         $response = array();
         foreach ($pairs as $key=>$pair){
             $response[$key] = (float)$this->curl("https://bittrex.com/api/v1.1/public/getticker?market=".$pair)['result']['Last'];
@@ -115,6 +129,14 @@ class DefaultController extends Controller
                 $response['BCH'] = (float)$row['lprice'];
             }elseif ($row['symbol1']=='ETH'){
                 $response['ETH'] = (float)$row['lprice'];
+            }elseif ($row['symbol1']=='BTG'){
+                $response['BTG'] = (float)$row['lprice'];
+            }elseif ($row['symbol1']=='DASH'){
+                $response['DSH'] = (float)$row['lprice'];
+            }elseif ($row['symbol1']=='XRP'){
+                $response['XRP'] = (float)$row['lprice'];
+            }elseif ($row['symbol1']=='ZEC'){
+                $response['ZEC'] = (float)$row['lprice'];
             }
         }
 
@@ -143,6 +165,12 @@ class DefaultController extends Controller
         $response['BTC'] = (float)$return['BTC_USD']['sell_price'];
         $response['BCH'] = (float)$return['BCH_USD']['sell_price'];
         $response['ETH'] = (float)$return['ETH_USD']['sell_price'];
+        $response['DSH'] = (float)$return['DASH_USD']['sell_price'];
+        $response['ETC'] = (float)$return['ETC_USD']['sell_price'];
+        $response['LTC'] = (float)$return['LTC_USD']['sell_price'];
+        $response['XMR'] = (float)$return['XMR_USD']['sell_price'];
+        $response['XRP'] = (float)$return['XRP_USD']['sell_price'];
+        $response['ZEC'] = (float)$return['ZEC_USD']['sell_price'];
 
         return new JsonResponse($response);
     }
@@ -195,7 +223,7 @@ class DefaultController extends Controller
      * @Route("/api/hitbtc",name="hitbtc")
      */
     public function hitbtc(Request $request){
-        $pairs = array('BTC'=>'BTCUSD','BCH'=>'BCHUSD','ETH'=>'ETHUSD');
+        $pairs = array('BTC'=>'BTCUSD','BCH'=>'BCHUSD','ETH'=>'ETHUSD','BNT'=>'BNTUSD','BTG'=>'BTGUSD','DSH'=>'DASHUSD','LTC'=>'LTCUSD','XMR'=>'XMRUSD','ZEC'=>'ZECUSD');
         $response = array();
         $return = $this->curl("https://api.hitbtc.com/api/2/public/ticker");
         foreach ($return as $price){
@@ -214,7 +242,7 @@ class DefaultController extends Controller
      * @Route("/api/livecoin",name="livecoin")
      */
     public function livecoin(Request $request){
-        $pairs = array('BTC'=>'BTC/USD','BCH'=>'BCH/USD','ETH'=>'ETH/USD');
+        $pairs = array('BTC'=>'BTC/USD','BCH'=>'BCH/USD','ETH'=>'ETH/USD','LTC'=>'LTC/USD',);
         $response = array();
         $return = $this->curl("https://api.livecoin.net/exchange/ticker");
         foreach ($return as $price){
@@ -233,7 +261,7 @@ class DefaultController extends Controller
      * @Route("/api/wex",name="wex")
      */
     public function wex(Request $request){
-        $pairs = array('BTC'=>'btc_usd','BCH'=>'bch_usd','ETH'=>'eth_usd');
+        $pairs = array('BTC'=>'btc_usd','BCH'=>'bch_usd','ETH'=>'eth_usd','DSH'=>'dsh_usd','ltc'=>'ltc_usd');
         $parameter = implode("-",$pairs);
         $response = array();
         $return = $this->curl("https://wex.nz/api/3/ticker/".$parameter);
@@ -247,7 +275,7 @@ class DefaultController extends Controller
      * @Route("/api/xbtce",name="xbtce")
      */
     public function xbtce(Request $request){
-        $pairs = array('BTC'=>'BTCUSD','BCH'=>'BCHUSD','ETH'=>'ETHUSD');
+        $pairs = array('BTC'=>'BTCUSD','BCH'=>'BCHUSD','ETH'=>'ETHUSD','DSH'=>'DSHUSD','LTC'=>'LTCUSD');
         $response = array();
         $return = $this->curl("https://cryptottlivewebapi.xbtce.net:8443/api/v1/public/ticker");
         foreach ($return as $price){

@@ -23,6 +23,7 @@
             <th>wex</th>
             <th>xbtce</th>
             <th>yobi</th>
+            <th>bitbay</th>
         </tr>
         </thead>
         <tbody>
@@ -35,6 +36,35 @@
         </tr>
 
         <tr id="ETH">
+
+        </tr>
+
+        <tr id="LTC">
+
+        </tr>
+
+        <tr id="BTG">
+
+        </tr>
+
+
+        <tr id="DSH">
+
+        </tr>
+
+        <tr id="ETC">
+
+        </tr>
+
+        <tr id="XMR">
+
+        </tr>
+
+        <tr id="XRP">
+
+        </tr>
+
+        <tr id="BNT">
 
         </tr>
         </tbody>
@@ -66,9 +96,10 @@
             wex = 12 - done
             xbtce = 13
             yobi = 14
+            bitbay = 15
         #}
         $(function() {
-            var prices = new Array(15);
+            var prices = new Array(16);
             prices.fill({});
 //            setInterval(Bitfinix, 5000);
             setInterval(getData, 10000);
@@ -80,6 +111,13 @@
                 var btc = '<td>BTC</td>';
                 var bch = '<td>BCH</td>';
                 var eth = '<td>ETH</td>';
+                var ltc = '<td>LTC</td>';
+                var btg = '<td>BTG</td>';
+                var dsh = '<td>DSH</td>';
+                var etc = '<td>ETC</td>';
+                var xmr = '<td>XMR</td>';
+                var xrp = '<td>XRP</td>';
+                var bnt = '<td>BNT</td>';
                 for(var i=0; i<prices.length; i++) {
                     if(typeof prices[i].BTC != 'undefined'){
                         btc += "<td>"+moneyFormat(prices[i].BTC)+"</td>"
@@ -99,11 +137,60 @@
                         eth += "<td></td>"
                     }
 
+                    if(typeof prices[i].LTC != 'undefined'){
+                        ltc += "<td>"+moneyFormat(prices[i].LTC)+"</td>"
+                    }else{
+                        ltc += "<td></td>"
+                    }
+
+                    if(typeof prices[i].BTG != 'undefined'){
+                        btg += "<td>"+moneyFormat(prices[i].BTG)+"</td>"
+                    }else{
+                        btg += "<td></td>"
+                    }
+
+                    if(typeof prices[i].DSH != 'undefined'){
+                        dsh += "<td>"+moneyFormat(prices[i].DSH)+"</td>"
+                    }else{
+                        dsh += "<td></td>"
+                    }
+
+                    if(typeof prices[i].ETC != 'undefined'){
+                        etc += "<td>"+moneyFormat(prices[i].ETC)+"</td>"
+                    }else{
+                        etc += "<td></td>"
+                    }
+
+                    if(typeof prices[i].XMR != 'undefined'){
+                        xmr += "<td>"+moneyFormat(prices[i].XMR)+"</td>"
+                    }else{
+                        xmr += "<td></td>"
+                    }
+
+                    if(typeof prices[i].XRP != 'undefined'){
+                        xrp += "<td>"+moneyFormat(prices[i].XRP)+"</td>"
+                    }else{
+                        xrp += "<td></td>"
+                    }
+
+                    if(typeof prices[i].BNT != 'undefined'){
+                        bnt += "<td>"+moneyFormat(prices[i].BNT)+"</td>"
+                    }else{
+                        bnt += "<td></td>"
+                    }
+
 
                 }
                 $('#BTC').html(btc);
                 $('#BCH').html(bch);
                 $('#ETH').html(eth);
+                $('#LTC').html(ltc);
+                $('#BTG').html(btg);
+                $('#DSH').html(dsh);
+                $('#ETC').html(etc);
+                $('#XMR').html(xmr);
+                $('#XRP').html(xrp);
+                $('#BNT').html(bnt);
 
                 console.log('table updated');
             }
@@ -283,6 +370,18 @@
                     cache: false,
                     success: function(data){
                         prices[13] = data
+                    }
+                });
+
+                /**
+                 * xbtce
+                 */
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('bitbay') }}",
+                    cache: false,
+                    success: function(data){
+                        prices[15] = data
                     }
                 });
 
