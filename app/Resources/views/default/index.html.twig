@@ -2,7 +2,10 @@
 
 {% block body %}
 
-
+    <div class="col-md-4">
+        <p>Percentage for notifications</p>
+        <input id="percentage" class="form-control" value="10" placeholder="percentage" maxlength="5" style="margin: 10px">
+    </div>
 
     <table id="datatable" class="table table-bordered">
         <thead>
@@ -104,8 +107,79 @@
 //            setInterval(Bitfinix, 5000);
             setInterval(getData, 10000);
             setInterval(updateTable, 5000);
+            setInterval(notify, 10000);
+            setInterval(bitfinixApiCall, 15000);
+            var exchanges = ['binance','bitpay','bitfinix','bitstamp','bittrex','cex','exmo','hitbit','kraken','Liqui','Livecoin','Poloniex','wex','xbtce','yobi','bitbay']
+
+            function compare(first,second,limit) {
+                var diff;
+                if(first>second){
+                    diff = ((first-second)/second)*100;
+                    if(diff>limit){
+                        return [first,second,1,diff]
+                    }
+                }else{
+                    diff = ((second-first)/first)*100;
+                    if(diff>limit){
+                        return [first,second,2,diff]
+                    }
+                }
+
+                return false
+
+            }
+
+            function bitfinixApiCall() {
+                /**
+                 *bitfinix
+                 */
+
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('bitfinex') }}",
+                    cache: false,
+                    success: function(data){
+                        prices[2] = data
+                    }
+                });
+            }
+
+            function notify() {
+                var currencies = ['BTC','BCH','ETH','LTC','BTG','DSH','ETC','XMR','XRP','BNT'];
+                var email = '';
+                for(var index = 0; index<currencies.length;index++){
+                    for(var i=0; i<prices.length-1; i++) {
+                        if(typeof prices[i][currencies[index]] != 'undefined'){
+                            var firstPrice = prices[i][currencies[index]];
+                            for(var j=i+1; j<prices.length; j++) {
+                                if(typeof prices[j][currencies[index]] != 'undefined'){
+                                    var secondPrice = prices[j][currencies[index]];
+                                    var result = compare(firstPrice,secondPrice,parseFloat($('#percentage').val()));
+                                    if(result != false){
+                                        email+= '<li>'+(currencies[index]+' -   '+exchanges[i]+':'+result[0]+' - '+exchanges[j]+':'+result[1]+' - '+result[3])+'</li>';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if(email != ''){
+                    email = '<ul>'+email+'</ul>';
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ url('email') }}",
+                        data:{'email':email},
+                        cache: false,
+                        success: function(data){
+                            console.log(data);
+                        }
+                    });
+                    console.log(email);
+                }
 
 
+
+            }
 
             function updateTable() {
                 var btc = '<td>BTC</td>';
@@ -220,19 +294,6 @@
                     cache: false,
                     success: function(data){
                         prices[1] = data
-                    }
-                });
-
-                /**
-                 *bitfinix
-                 */
-
-                $.ajax({
-                    type: "GET",
-                    url: "{{ url('bitfinex') }}",
-                    cache: false,
-                    success: function(data){
-                        prices[2] = data
                     }
                 });
 

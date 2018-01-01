@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
@@ -332,4 +333,27 @@ class DefaultController extends Controller
             return json_decode($response,true);
         }
     }
+
+    /**
+     * @Route("/email", name="email")
+     */
+    public function emailSend(Request $request){
+            $transport = (new \Swift_SmtpTransport('smtp.gmail.com', 465,'ssl'))
+                ->setUsername('mkspramuditha@gmail.com')
+                ->setPassword('12345@Shan')
+            ;
+
+            $mailer = new \Swift_Mailer($transport);
+            $message = (new \Swift_Message('Crypto Alerts'))
+                ->setFrom(['testcrypto8@gmail.com' => 'Crypto Alerts'])
+                ->setTo('contact@thehouseofbitcoins.io')
+                ->setBody($request->get('email'),
+                    'text/html'
+                )
+            ;
+            $result = $mailer->send($message);
+
+            return new Response($result);
+        }
+
 }
