@@ -35,42 +35,61 @@
         </thead>
         <tbody>
         <tr id="BTCUSD"></tr>
+        <tr id="BTCUSDT"></tr>
         <tr id="BTCEUR"></tr>
         <tr id="ETHUSD"></tr>
+        <tr id="ETHUSDT"></tr>
         <tr id="ETHEUR"></tr>
         <tr id="ETHBTC"></tr>
-        <tr id="BCHUSD"></tr>
+        <tr id="BCHUSDT"></tr>
         <tr id="BCHEUR"></tr>
         <tr id="BCHBTC"></tr>
         <tr id="BCHETH"></tr>
         <tr id="ZECUSD"></tr>
+        <tr id="ZECUSDT"></tr>
         <tr id="ZECEUR"></tr>
         <tr id="ZECBTC"></tr>
+        <tr id="ZECETH"></tr>
         <tr id="BTGUSD"></tr>
+        <tr id="BTGUSDT"></tr>
         <tr id="BTGEUR"></tr>
         <tr id="BTGBTC"></tr>
+        <tr id="BTGETH"></tr>
         <tr id="DSHUSD"></tr>
+        <tr id="DSHUSDT"></tr>
         <tr id="DSHEUR"></tr>
         <tr id="DSHBTC"></tr>
+        <tr id="DSHETH"></tr>
         <tr id="ETCUSD"></tr>
+        <tr id="ETCUSDT"></tr>
         <tr id="ETCEUR"></tr>
         <tr id="ETCBTC"></tr>
+        <tr id="ETCETH"></tr>
         <tr id="LTCUSD"></tr>
+        <tr id="LTCUSDT"></tr>
         <tr id="LTCEUR"></tr>
         <tr id="LTCBTC"></tr>
+        <tr id="LTCETH"></tr>
         <tr id="XMRUSD"></tr>
+        <tr id="XMRUSDT"></tr>
         <tr id="XMREUR"></tr>
         <tr id="XMRBTC"></tr>
+        <tr id="XMRETH"></tr>
         <tr id="XRPUSD"></tr>
+        <tr id="XRPUSDT"></tr>
         <tr id="XRPEUR"></tr>
         <tr id="XRPBTC"></tr>
-        <tr id="ICOUSD"></tr>
-        <tr id="ICOEUR"></tr>
-        <tr id="ICOBTC"></tr>
-        <tr id="ICOETH"></tr>
+        <tr id="XRPETH"></tr>
+        <tr id="IOTUSD"></tr>
+        <tr id="IOTUSDT"></tr>
+        <tr id="IOTEUR"></tr>
+        <tr id="IOTBTC"></tr>
+        <tr id="IOTETH"></tr>
         <tr id="EOSUSD"></tr>
+        <tr id="EOSUSDT"></tr>
         <tr id="EOSEUR"></tr>
         <tr id="EOSBTC"></tr>
+        <tr id="EOSETH"></tr>
         </tbody>
     </table>
 
@@ -200,121 +219,180 @@
 
             function updateTable() {
                 var btcusd = '<td>BTCUSD</td>';
+                var btcusdt = '<td>BTCUSDT</td>';
                 var btceur = '<td>BTCEUR</td>';
                 var ethusd = '<td>ETHUSD</td>';
+                var ethusdt = '<td>ETHUSDT</td>';
                 var etheur = '<td>ETHEUR</td>';
                 var ethbtc = '<td>ETHBTC</td>';
                 var bchusd = '<td>BCHUSD</td>';
+                var bchusdt = '<td>BCHUSDT</td>';
                 var bcheur = '<td>BCHEUR</td>';
                 var bchbtc = '<td>BCHBTC</td>';
                 var bcheth = '<td>BCHETH</td>';
                 var zecusd = '<td>ZECUSD</td>';
+                var zecusdt = '<td>ZECUSDT</td>';
                 var zeceur = '<td>ZECEUR</td>';
                 var zecbtc = '<td>ZECBTC</td>';
+                var zeceth = '<td>ZECETH</td>';
                 var btgusd = '<td>BTGUSD</td>';
+                var btgusdt = '<td>BTGUSDT</td>';
                 var btgeur = '<td>BTGEUR</td>';
                 var btgbtc = '<td>BTGBTC</td>';
+                var btgeth = '<td>BTGETH</td>';
                 var dshusd = '<td>DSHUSD</td>';
+                var dshusdt = '<td>DSHUSDT</td>';
                 var dsheur = '<td>DSHEUR</td>';
                 var dshbtc = '<td>DSHBTC</td>';
+                var dsheth = '<td>DSHETH</td>';
                 var etcusd = '<td>ETCUSD</td>';
+                var etcusdt = '<td>ETCUSDT</td>';
                 var etceur = '<td>ETCEUR</td>';
                 var etcbtc = '<td>ETCBTC</td>';
+                var etceth = '<td>ETCETH</td>';
                 var ltcusd = '<td>LTCUSD</td>';
+                var ltcusdt = '<td>LTCUSDT</td>';
                 var ltceur = '<td>LTCEUR</td>';
                 var ltcbtc = '<td>LTCBTC</td>';
+                var ltceth = '<td>LTCETH</td>';
                 var xmrusd = '<td>XMRUSD</td>';
+                var xmrusdt = '<td>XMRUSDT</td>';
                 var xmreur = '<td>XMREUR</td>';
                 var xmrbtc = '<td>XMRBTC</td>';
+                var xmreth = '<td>XMRETH</td>';
                 var xrpusd = '<td>XRPUSD</td>';
+                var xrpusdt = '<td>XRPUSDT</td>';
                 var xrpeur = '<td>XRPEUR</td>';
                 var xrpbtc = '<td>XRPBTC</td>';
-                var icousd = '<td>ICOUSD</td>';
-                var icoeur = '<td>ICOEUR</td>';
-                var icobtc = '<td>ICOBTC</td>';
-                var icoeth = '<td>ICOETH</td>';
+                var xrpeth = '<td>XRPETH</td>';
+                var iotusd = '<td>IOTUSD</td>';
+                var iotusdt = '<td>IOTUSDT</td>';
+                var ioteur = '<td>IOTEUR</td>';
+                var iotbtc = '<td>IOTBTC</td>';
+                var ioteth = '<td>IOTETH</td>';
                 var eosusd = '<td>EOSUSD</td>';
+                var eosusdt = '<td>EOSUSDT</td>';
                 var eoseur = '<td>EOSEUR</td>';
                 var eosbtc = '<td>EOSBTC</td>';
+                var eoseth = '<td>EOSETH</td>';
 
                 for(var i=0; i<prices.length; i++) {
                     typeof prices[i].BTCUSD != 'undefined' ? btcusd += "<td>"+moneyFormat(prices[i].BTCUSD)+"</td>" : btcusd += "<td></td>";
+                    typeof prices[i].BTCUSDT != 'undefined' ? btcusdt += "<td>"+moneyFormat(prices[i].BTCUSDT)+"</td>" : btcusdt += "<td></td>";
                     typeof prices[i].BTCEUR != 'undefined' ? btceur += "<td>"+moneyFormat(prices[i].BTCEUR)+"</td>" : btceur += "<td></td>";
                     typeof prices[i].ETHUSD != 'undefined' ? ethusd += "<td>"+moneyFormat(prices[i].ETHUSD)+"</td>" : ethusd += "<td></td>";
+                    typeof prices[i].ETHUSDT != 'undefined' ? ethusdt += "<td>"+moneyFormat(prices[i].ETHUSDT)+"</td>" : ethusdt += "<td></td>";
                     typeof prices[i].ETHEUR != 'undefined' ? etheur += "<td>"+moneyFormat(prices[i].ETHEUR)+"</td>" : etheur += "<td></td>";
                     typeof prices[i].ETHBTC != 'undefined' ? ethbtc += "<td>"+moneyFormat(prices[i].ETHBTC)+"</td>" : ethbtc += "<td></td>";
                     typeof prices[i].BCHUSD != 'undefined' ? bchusd += "<td>"+moneyFormat(prices[i].BCHUSD)+"</td>" : bchusd += "<td></td>";
+                    typeof prices[i].BCHUSDT != 'undefined' ? bchusdt += "<td>"+moneyFormat(prices[i].BCHUSDT)+"</td>" : bchusdt += "<td></td>";
                     typeof prices[i].BCHEUR != 'undefined' ? bcheur += "<td>"+moneyFormat(prices[i].BCHEUR)+"</td>" : bcheur += "<td></td>";
                     typeof prices[i].BCHBTC != 'undefined' ? bchbtc += "<td>"+moneyFormat(prices[i].BCHBTC)+"</td>" : bchbtc += "<td></td>";
                     typeof prices[i].BCHETH != 'undefined' ? bcheth += "<td>"+moneyFormat(prices[i].BCHETH)+"</td>" : bcheth += "<td></td>";
                     typeof prices[i].ZECUSD != 'undefined' ? zecusd += "<td>"+moneyFormat(prices[i].ZECUSD)+"</td>" : zecusd += "<td></td>";
+                    typeof prices[i].ZECUSDT != 'undefined' ? zecusdt += "<td>"+moneyFormat(prices[i].ZECUSDT)+"</td>" : zecusdt += "<td></td>";
                     typeof prices[i].ZECEUR != 'undefined' ? zeceur += "<td>"+moneyFormat(prices[i].ZECEUR)+"</td>" : zeceur += "<td></td>";
                     typeof prices[i].ZECBTC != 'undefined' ? zecbtc += "<td>"+moneyFormat(prices[i].ZECBTC)+"</td>" : zecbtc += "<td></td>";
+                    typeof prices[i].ZECETH != 'undefined' ? zeceth += "<td>"+moneyFormat(prices[i].ZECETH)+"</td>" : zeceth += "<td></td>";
                     typeof prices[i].BTGUSD != 'undefined' ? btgusd += "<td>"+moneyFormat(prices[i].BTGUSD)+"</td>" : btgusd += "<td></td>";
+                    typeof prices[i].BTGUSDT != 'undefined' ? btgusdt += "<td>"+moneyFormat(prices[i].BTGUSDT)+"</td>" : btgusdt += "<td></td>";
                     typeof prices[i].BTGEUR != 'undefined' ? btgeur += "<td>"+moneyFormat(prices[i].BTGEUR)+"</td>" : btgeur += "<td></td>";
                     typeof prices[i].BTGBTC != 'undefined' ? btgbtc += "<td>"+moneyFormat(prices[i].BTGBTC)+"</td>" : btgbtc += "<td></td>";
+                    typeof prices[i].BTGETH != 'undefined' ? btgeth += "<td>"+moneyFormat(prices[i].BTGETH)+"</td>" : btgeth += "<td></td>";
                     typeof prices[i].DSHUSD != 'undefined' ? dshusd += "<td>"+moneyFormat(prices[i].DSHUSD)+"</td>" : dshusd += "<td></td>";
+                    typeof prices[i].DSHUSDT != 'undefined' ? dshusdt += "<td>"+moneyFormat(prices[i].DSHUSDT)+"</td>" : dshusdt += "<td></td>";
                     typeof prices[i].DSHEUR != 'undefined' ? dsheur += "<td>"+moneyFormat(prices[i].DSHEUR)+"</td>" : dsheur += "<td></td>";
                     typeof prices[i].DSHBTC != 'undefined' ? dshbtc += "<td>"+moneyFormat(prices[i].DSHBTC)+"</td>" : dshbtc += "<td></td>";
+                    typeof prices[i].DSHETH != 'undefined' ? dsheth += "<td>"+moneyFormat(prices[i].DSHETH)+"</td>" : dsheth += "<td></td>";
                     typeof prices[i].ETCUSD != 'undefined' ? etcusd += "<td>"+moneyFormat(prices[i].ETCUSD)+"</td>" : etcusd += "<td></td>";
+                    typeof prices[i].ETCUSDT != 'undefined' ? etcusdt += "<td>"+moneyFormat(prices[i].ETCUSDT)+"</td>" : etcusdt += "<td></td>";
                     typeof prices[i].ETCEUR != 'undefined' ? etceur += "<td>"+moneyFormat(prices[i].ETCEUR)+"</td>" : etceur += "<td></td>";
                     typeof prices[i].ETCBTC != 'undefined' ? etcbtc += "<td>"+moneyFormat(prices[i].ETCBTC)+"</td>" : etcbtc += "<td></td>";
+                    typeof prices[i].ETCETH != 'undefined' ? etceth += "<td>"+moneyFormat(prices[i].ETCETH)+"</td>" : etceth += "<td></td>";
                     typeof prices[i].LTCUSD != 'undefined' ? ltcusd += "<td>"+moneyFormat(prices[i].LTCUSD)+"</td>" : ltcusd += "<td></td>";
+                    typeof prices[i].LTCUSDT != 'undefined' ? ltcusdt += "<td>"+moneyFormat(prices[i].LTCUSDT)+"</td>" : ltcusdt += "<td></td>";
                     typeof prices[i].LTCEUR != 'undefined' ? ltceur += "<td>"+moneyFormat(prices[i].LTCEUR)+"</td>" : ltceur += "<td></td>";
                     typeof prices[i].LTCBTC != 'undefined' ? ltcbtc += "<td>"+moneyFormat(prices[i].LTCBTC)+"</td>" : ltcbtc += "<td></td>";
-                    typeof prices[i].XMRUSD != 'undefined' ? xmrusd += "<td>"+moneyFormat(prices[i].XMRUSD)+"</td>" : xmrusd += "<td></td>";
+                    typeof prices[i].LTCETH != 'undefined' ? ltceth += "<td>"+moneyFormat(prices[i].LTCETH)+"</td>" : ltceth += "<td></td>";
+                    typeof prices[i].XMRUSDT != 'undefined' ? xmrusdt += "<td>"+moneyFormat(prices[i].XMRUSDT)+"</td>" : xmrusdt += "<td></td>";
                     typeof prices[i].XMREUR != 'undefined' ? xmreur += "<td>"+moneyFormat(prices[i].XMREUR)+"</td>" : xmreur += "<td></td>";
                     typeof prices[i].XMRBTC != 'undefined' ? xmrbtc += "<td>"+moneyFormat(prices[i].XMRBTC)+"</td>" : xmrbtc += "<td></td>";
+                    typeof prices[i].XMRETH != 'undefined' ? xmreth += "<td>"+moneyFormat(prices[i].XMRETH)+"</td>" : xmreth += "<td></td>";
                     typeof prices[i].XRPUSD != 'undefined' ? xrpusd += "<td>"+moneyFormat(prices[i].XRPUSD)+"</td>" : xrpusd += "<td></td>";
+                    typeof prices[i].XRPUSDT != 'undefined' ? xrpusdt += "<td>"+moneyFormat(prices[i].XRPUSDT)+"</td>" : xrpusdt += "<td></td>";
                     typeof prices[i].XRPEUR != 'undefined' ? xrpeur += "<td>"+moneyFormat(prices[i].XRPEUR)+"</td>" : xrpeur += "<td></td>";
                     typeof prices[i].XRPBTC != 'undefined' ? xrpbtc += "<td>"+moneyFormat(prices[i].XRPBTC)+"</td>" : xrpbtc += "<td></td>";
-                    typeof prices[i].ICOUSD != 'undefined' ? icousd += "<td>"+moneyFormat(prices[i].ICOUSD)+"</td>" : icousd += "<td></td>";
-                    typeof prices[i].ICOEUR != 'undefined' ? icoeur += "<td>"+moneyFormat(prices[i].ICOEUR)+"</td>" : icoeur += "<td></td>";
-                    typeof prices[i].ICOBTC != 'undefined' ? icobtc += "<td>"+moneyFormat(prices[i].ICOBTC)+"</td>" : icobtc += "<td></td>";
-                    typeof prices[i].ICOETH != 'undefined' ? icoeth += "<td>"+moneyFormat(prices[i].ICOETH)+"</td>" : icoeth += "<td></td>";
+                    typeof prices[i].XRPETH != 'undefined' ? xrpeth += "<td>"+moneyFormat(prices[i].XRPETH)+"</td>" : xrpeth += "<td></td>";
+                    typeof prices[i].IOTUSD != 'undefined' ? iotusd += "<td>"+moneyFormat(prices[i].IOTUSD)+"</td>" : iotusd += "<td></td>";
+                    typeof prices[i].IOTUSDT != 'undefined' ? iotusdt += "<td>"+moneyFormat(prices[i].IOTUSDT)+"</td>" : iotusdt += "<td></td>";
+                    typeof prices[i].IOTEUR != 'undefined' ? ioteur += "<td>"+moneyFormat(prices[i].IOTEUR)+"</td>" : ioteur += "<td></td>";
+                    typeof prices[i].IOTBTC != 'undefined' ? iotbtc += "<td>"+moneyFormat(prices[i].IOTBTC)+"</td>" : iotbtc += "<td></td>";
+                    typeof prices[i].IOTETH != 'undefined' ? ioteth += "<td>"+moneyFormat(prices[i].IOTETH)+"</td>" : ioteth += "<td></td>";
                     typeof prices[i].EOSUSD != 'undefined' ? eosusd += "<td>"+moneyFormat(prices[i].EOSUSD)+"</td>" : eosusd += "<td></td>";
+                    typeof prices[i].EOSUSDT != 'undefined' ? eosusdt += "<td>"+moneyFormat(prices[i].EOSUSDT)+"</td>" : eosusdt += "<td></td>";
                     typeof prices[i].EOSEUR != 'undefined' ? eoseur += "<td>"+moneyFormat(prices[i].EOSEUR)+"</td>" : eoseur += "<td></td>";
                     typeof prices[i].EOSBTC != 'undefined' ? eosbtc += "<td>"+moneyFormat(prices[i].EOSBTC)+"</td>" : eosbtc += "<td></td>";
+                    typeof prices[i].EOSETH != 'undefined' ? eoseth += "<td>"+moneyFormat(prices[i].EOSETH)+"</td>" : eoseth += "<td></td>";
 
 
                 }
                 $('#BTCUSD').html(btcusd);
+                $('#BTCUSDT').html(btcusdt);
                 $('#BTCEUR').html(btceur);
                 $('#ETHUSD').html(ethusd);
+                $('#ETHUSDT').html(ethusdt);
                 $('#ETHEUR').html(etheur);
                 $('#ETHBTC').html(ethbtc);
                 $('#BCHUSD').html(bchusd);
+                $('#BCHUSDT').html(bchusdt);
                 $('#BCHEUR').html(bcheur);
                 $('#BCHBTC').html(bchbtc);
                 $('#BCHETH').html(bcheth);
                 $('#ZECUSD').html(zecusd);
+                $('#ZECUSDT').html(zecusdt);
                 $('#ZECEUR').html(zeceur);
                 $('#ZECBTC').html(zecbtc);
+                $('#ZECETH').html(zeceth);
                 $('#BTGUSD').html(btgusd);
+                $('#BTGUSDT').html(btgusdt);
                 $('#BTGEUR').html(btgeur);
                 $('#BTGBTC').html(btgbtc);
+                $('#BTGETH').html(btgeth);
                 $('#DSHUSD').html(dshusd);
+                $('#DSHUSDT').html(dshusdt);
                 $('#DSHEUR').html(dsheur);
                 $('#DSHBTC').html(dshbtc);
+                $('#DSHETH').html(dsheth);
                 $('#ETCUSD').html(etcusd);
+                $('#ETCUSDT').html(etcusdt);
                 $('#ETCEUR').html(etceur);
                 $('#ETCBTC').html(etcbtc);
+                $('#ETCETH').html(etceth);
                 $('#LTCUSD').html(ltcusd);
+                $('#LTCUSDT').html(ltcusdt);
                 $('#LTCEUR').html(ltceur);
                 $('#LTCBTC').html(ltcbtc);
+                $('#LTCETH').html(ltceth);
                 $('#XMRUSD').html(xmrusd);
+                $('#XMRUSDT').html(xmrusdt);
                 $('#XMREUR').html(xmreur);
                 $('#XMRBTC').html(xmrbtc);
+                $('#XMRETH').html(xmreth);
                 $('#XRPUSD').html(xrpusd);
+                $('#XRPUSDT').html(xrpusdt);
                 $('#XRPEUR').html(xrpeur);
                 $('#XRPBTC').html(xrpbtc);
-                $('#ICOUSD').html(icousd);
-                $('#ICOEUR').html(icoeur);
-                $('#ICOBTC').html(icobtc);
-                $('#ICOETH').html(icoeth);
+                $('#XRPETH').html(xrpeth);
+                $('#IOTUSD').html(iotusd);
+                $('#IOTUSDT').html(iotusdt);
+                $('#IOTEUR').html(ioteur);
+                $('#IOTBTC').html(iotbtc);
+                $('#IOTETH').html(ioteth);
                 $('#EOSUSD').html(eosusd);
+                $('#EOSUSDT').html(eosusdt);
                 $('#EOSEUR').html(eoseur);
                 $('#EOSBTC').html(eosbtc);
+                $('#EOSETH').html(eoseth);
 
 
                 console.log('table updated');
@@ -323,7 +401,7 @@
             function getData() {
 
                 $.ajax({type: "GET", url: "{{ url('bitstamp') }}", cache: false, success: function(data){ prices[0] = data }});
-                {#$.ajax({type: "GET", url: "{{ url('coinbase') }}", cache: false, success: function(data){ prices[2] = data }});#}
+                $.ajax({type: "GET", url: "{{ url('gdax') }}", cache: false, success: function(data){ prices[2] = data }});
                 $.ajax({type: "GET", url: "{{ url('poloniex') }}", cache: false, success: function(data){ prices[3] = data }});
                 $.ajax({type: "GET", url: "{{ url('gemini') }}", cache: false, success: function(data){ prices[5] = data }});
                 $.ajax({type: "GET", url: "{{ url('exmo') }}", cache: false, success: function(data){ prices[6] = data }});
@@ -336,7 +414,7 @@
                 $.ajax({type: "GET", url: "{{ url('binance') }}", cache: false, success: function(data){ prices[13] = data }});
                 $.ajax({type: "GET", url: "{{ url('wex') }}", cache: false, success: function(data){ prices[14] = data }});
                 $.ajax({type: "GET", url: "{{ url('gate') }}", cache: false, success: function(data){ prices[15] = data }});
-                {#$.ajax({type: "GET", url: "{{ url('coinsbank') }}", cache: false, success: function(data){ prices[16] = data }});#}
+                $.ajax({type: "GET", url: "{{ url('coninsBank') }}", cache: false, success: function(data){ prices[16] = data }});
                 $.ajax({type: "GET", url: "{{ url('bitflyerLightning') }}", cache: false, success: function(data){ prices[17] = data }});
                 {#$.ajax({type: "GET", url: "{{ url('') }}", cache: false, success: function(data){ prices[18] = data }});#}
                 {#$.ajax({type: "GET", url: "{{ url('lakbtc') }}", cache: false, success: function(data){ prices[19] = data }});#}
@@ -344,12 +422,14 @@
             }
 
             function moneyFormat(price) {
-                const pieces = parseFloat(price).toFixed(2).split('')
-                var ii = pieces.length - 3
-                while ((ii-=3) > 0) {
-                    pieces.splice(ii, 0, ',')
-                }
-                return pieces.join('')
+                var pieces = parseFloat(price).toFixed(5)
+//                var ii = pieces.length - 3
+//                while ((ii-=3) > 0) {
+//                    pieces.splice(ii, 0, ',')
+//                }
+//                return pieces.join('')
+                return pieces
+
             }
 
             function createTable(tableData) {

@@ -88,27 +88,33 @@ class DefaultController extends Controller
      * @Route("/api/gdax",name="gdax")
      */
     public function gdax(Request $request){
-        $pairs = array('BCH-USD', 'LTC-EUR');
+        $pairs = array('BCHUSD'=>'BCH-USD',
+            'BTCEUR'=>'BTC-EUR','BTCUSD'=>'BTC-USD',
+            'ETHBTC'=>'ETH-BTC','ETHEUR'=>'ETH-EUR','ETHUSD'=>'ETH-USD',
+            'LTCBTC'=>'LTC-BTC','LTCEUR'=>'LTC-EUR','LTCUSD'=>'LTC-USD',
+        );
         $response = array();
-        foreach ($pairs as $pair){
-            $response = $this->curl("https://api.gdax.com/products/".$pair."/ticker");
+        foreach ($pairs as $key=>$pair){
+//            var_dump($this->curl("https://api.gdax.com/products/".$pair."/ticker"));
+//            exit;
+            $response[$key] = $this->curl("https://api.gdax.com/products/".$pair."/ticker")['price'];
         }
 
-        return new JsonResponse('done');
+        return new JsonResponse($response);
     }
 
     /**
      * @Route("/api/poloniex",name="poloniex")
      */
     public function poloniex(Request $request){
-        $pairs = array('BTCUSD'=>'USDT_BTC',
-            'BCHUSD'=>'USDT_BCH',
-            'ETHUSD'=>'USDT_ETH',
-            'DSHUSD'=>'USDT_DASH',
-            'ETCUSD'=>'USDT_ETC',
-            'LTCUSD'=>'USDT_LTC','LTCBTC'=>'BTC_LTC',
-            'XMRUSD'=>'USDT_XMR',
-            'ZECUSD'=>'USDT_ZEC',
+        $pairs = array('BTCUSDT'=>'USDT_BTC',
+            'BCHUSDT'=>'USDT_BCH',
+            'ETHUSDT'=>'USDT_ETH',
+            'DSHUSDT'=>'USDT_DASH',
+            'ETCUSDT'=>'USDT_ETC',
+            'LTCUSDT'=>'USDT_LTC','LTCBTC'=>'BTC_LTC',
+            'XMRUSDT'=>'USDT_XMR',
+            'ZECUSDT'=>'USDT_ZEC',
             'BTCDOGE'=>'BTC_DOGE','XRPBTC'=>'BTC_XRP',
             'XMRBTC'=>'BTC_XMR','DSHBTC'=>'BTC_DASH','ETCETH'=>'ETH_ETC','ETHBTC'=>'BTC_ETH',
             'BCHETH'=>'ETH_BCH','BCHBTC'=>'BTC_BCH'
@@ -127,16 +133,16 @@ class DefaultController extends Controller
     public function bitfinix(Request $request){
         $pairs = array('BTCUSD'=>'btcusd','BTCEUR'=>'btceur',
             'ETHUSD'=>'ethusd','ETHBTC'=>'ethbtc',
-            'ZECUSD'=>'zecusd','ZECBTC'=>'zecbtc',
-            'BTGUSD'=>'btgusd','BTGBTC'=>'btgbtc',
-            'DSHUSD'=>'dshusd','DSHBTC'=>'dshbtc',
-            'ETCUSD'=>'etcusd','ETCBTC'=>'etcbtc',
-            'LTCUSD'=>'ltcusd','LTCBTC'=>'ltcbtc',
-            'XMRUSD'=>'xmrusd','XMRBTC'=>'xmrbtc',
-            'XRPUSD'=>'xrpusd','XRPBTC'=>'xrpbtc',
-            'ICOETH'=>'icoeth','ICOBTC'=>'icobtc',
-            'EOSUSD'=>'eosusd','EOSBTC'=>'eosbtc','EOSETH'=>'eoseth',
-            'BCHUSD'=>'bchusd','BCHBTC'=>'bchbtc','BCHETH'=>'bcheth',
+//            'ZECUSD'=>'zecusd','ZECBTC'=>'zecbtc',
+//            'BTGUSD'=>'btgusd','BTGBTC'=>'btgbtc',
+//            'DSHUSD'=>'dshusd','DSHBTC'=>'dshbtc',
+//            'ETCUSD'=>'etcusd','ETCBTC'=>'etcbtc',
+//            'LTCUSD'=>'ltcusd','LTCBTC'=>'ltcbtc',
+//            'XMRUSD'=>'xmrusd','XMRBTC'=>'xmrbtc',
+//            'XRPUSD'=>'xrpusd','XRPBTC'=>'xrpbtc',
+//            'IOTETH'=>'iotaeth','IOTBTC'=>'iotabtc',
+//            'EOSUSD'=>'eosusd','EOSBTC'=>'eosbtc','EOSETH'=>'eoseth',
+//            'BCHUSD'=>'bchusd','BCHBTC'=>'bchbtc','BCHETH'=>'bcheth',
 
         );
         $response = array();
@@ -292,8 +298,8 @@ class DefaultController extends Controller
      * @Route("/api/binance",name="binance")
      */
     public function binance(Request $request){
-        $pairs = array('BTCUSD'=>'BTCUSDT','BTCUSDT'=>'BTCUSDT',
-            'ETHUSD'=>'ETHUSDT','ETHBTC'=>'ETHBTC','ETHUSDT'=>'ETHUSDT',
+        $pairs = array('BTCUSDT'=>'BTCUSDT',
+            'ETHBTC'=>'ETHBTC','ETHUSDT'=>'ETHUSDT',
             'LTCBTC'=>'LTCBTC',
             'EOSETH'=>'EOSETH','EOSBTC'=>'EOSBTC',
             'ETHETH'=>'ETCETH','ETCBTC'=>'ETCBTC',
@@ -302,9 +308,9 @@ class DefaultController extends Controller
             'BTGBTC'=>'BTGBTC',
             'XRPBTC'=>'XRPBTC',
             'ADABTC'=>'ADABTC',
-            'XMRETH'=>'XRMETH','XMRBTC'=>'XRMBTC',
+            'XMRETH'=>'XMRETH','XMRBTC'=>'XMRBTC',
             'LTCETH'=>'LTCETH','LTCUSDT'=>'LTCUSDT',
-            'IOTABTC'=>'IOTABTC','IOTAETH'=>'IOTAETH',
+            'IOTBTC'=>'IOTABTC','IOTETH'=>'IOTAETH',
 
             );
         $response = array();
@@ -434,7 +440,7 @@ class DefaultController extends Controller
             'XRPUSDT'=>'xrp_usdt','XRPBTC'=>'xrp_btc',
             'DOGEUSDT'=>'doge_usdt','DOGEBTC'=>'doge_btc',
             'ADABTC'=>'ada_btc',
-            'IOTABTC'=>'iota_btc',
+            'IOTBTC'=>'iota_btc',
             'ZECBTC'=>'zec_btc',
             'BTGBTC'=>'btg_btc',
 
@@ -541,6 +547,7 @@ class DefaultController extends Controller
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
+            CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0',
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "GET",
@@ -566,14 +573,14 @@ class DefaultController extends Controller
      */
     public function emailSend(Request $request){
             $transport = (new \Swift_SmtpTransport('smtp.gmail.com', 465,'ssl'))
-                ->setUsername('pricealert@thehouseofbitcoins.io')
-                ->setPassword('12345678')
+                ->setUsername('testcrypto8@gmail.com')
+                ->setPassword('Crypto88')
             ;
 
             $mailer = new \Swift_Mailer($transport);
             $message = (new \Swift_Message('Crypto Alerts'))
-                ->setFrom(['mkspramuditha@gmail.com' => 'Crypto Alerts'])
-                ->setTo('mkspramuditha@gmail.com')
+                ->setFrom(['testcrypto8@gmail.com' => 'Crypto Alerts'])
+                ->setTo('contact@thehouseofbitcoins.io')
                 ->setBody($request->get('email'),
                     'text/html'
                 )
