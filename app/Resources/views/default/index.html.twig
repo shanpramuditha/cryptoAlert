@@ -82,11 +82,11 @@
         <tr id="XRPEUR"></tr>
         <tr id="XRPBTC"></tr>
         <tr id="XRPETH"></tr>
-        <tr id="IOTUSD"></tr>
-        <tr id="IOTUSDT"></tr>
-        <tr id="IOTEUR"></tr>
-        <tr id="IOTBTC"></tr>
-        <tr id="IOTETH"></tr>
+        <tr id="IOTAUSD"></tr>
+        <tr id="IOTAUSDT"></tr>
+        <tr id="IOTAEUR"></tr>
+        <tr id="IOTABTC"></tr>
+        <tr id="IOTAETH"></tr>
         <tr id="EOSUSD"></tr>
         <tr id="EOSUSDT"></tr>
         <tr id="EOSEUR"></tr>
@@ -97,8 +97,6 @@
         <tr id="DOGEUSD"></tr>
         <tr id="DOGEUSDT"></tr>
         <tr id="USDTUSD"></tr>
-        <tr id="IOTABTC"></tr>
-        <tr id="IOTAETH"></tr>
         </tbody>
     </table>
 
@@ -200,10 +198,9 @@
                     "LTCUSD","LTCUSDT","LTCEUR","LTCBTC","LTCETH",
                     "XMRUSD","XMRUSDT","XMREUR","XMRBTC","XMRETH",
                     "XRPUSD","XRPUSDT","XRPEUR","XRPBTC","XRPETH",
-                    "IOTUSD","IOTUSDT","IOTEUR","IOTBTC","IOTETH",
+                    "IOTAUSD","IOTAUSDT","IOTAEUR","IOTABTC","IOTAETH",
                     "EOSUSD","EOSUSDT","EOSEUR","EOSBTC","EOSETH",
                     "ADABTC","DOGEBTC","DOGEUSD","DOGEUSDT","USDTUSD",
-                    "IOTABTC","IOTAETH"
                 ];
                 var email = '';
                 for(var index = 0; index<currencies.length;index++){
@@ -291,11 +288,11 @@
                 var xrpeur = '<td>XRPEUR</td>';
                 var xrpbtc = '<td>XRPBTC</td>';
                 var xrpeth = '<td>XRPETH</td>';
-                var iotusd = '<td>IOTUSD</td>';
-                var iotusdt = '<td>IOTUSDT</td>';
-                var ioteur = '<td>IOTEUR</td>';
-                var iotbtc = '<td>IOTBTC</td>';
-                var ioteth = '<td>IOTETH</td>';
+                var iotausd = '<td>IOTAUSD</td>';
+                var iotausdt = '<td>IOTAUSDT</td>';
+                var iotaeur = '<td>IOTAEUR</td>';
+                var iotabtc = '<td>IOTABTC</td>';
+                var iotaeth = '<td>IOTAETH</td>';
                 var eosusd = '<td>EOSUSD</td>';
                 var eosusdt = '<td>EOSUSDT</td>';
                 var eoseur = '<td>EOSEUR</td>';
@@ -303,7 +300,7 @@
                 var eoseth = '<td>EOSETH</td>';
                 var adabtc = '<td>ADABTC</td>';
                 var dogebtc = '<td>DOGEBTC</td>';
-                var dogeusd = '<td>DOGEUSDT</td>';
+                var dogeusd = '<td>DOGEUSD</td>';
                 var dogeusdt = '<td>DOGEUSDT</td>';
                 var usdtusd = '<td>USDTUSD</td>';
                 var iotabtc = '<td>IOTABTC</td>';
@@ -359,11 +356,11 @@
                     typeof prices[i].XRPEUR != 'undefined' ? xrpeur += "<td>"+moneyFormat(prices[i].XRPEUR)+"</td>" : xrpeur += "<td></td>";
                     typeof prices[i].XRPBTC != 'undefined' ? xrpbtc += "<td>"+moneyFormat(prices[i].XRPBTC)+"</td>" : xrpbtc += "<td></td>";
                     typeof prices[i].XRPETH != 'undefined' ? xrpeth += "<td>"+moneyFormat(prices[i].XRPETH)+"</td>" : xrpeth += "<td></td>";
-                    typeof prices[i].IOTUSD != 'undefined' ? iotusd += "<td>"+moneyFormat(prices[i].IOTUSD)+"</td>" : iotusd += "<td></td>";
-                    typeof prices[i].IOTUSDT != 'undefined' ? iotusdt += "<td>"+moneyFormat(prices[i].IOTUSDT)+"</td>" : iotusdt += "<td></td>";
-                    typeof prices[i].IOTEUR != 'undefined' ? ioteur += "<td>"+moneyFormat(prices[i].IOTEUR)+"</td>" : ioteur += "<td></td>";
-                    typeof prices[i].IOTBTC != 'undefined' ? iotbtc += "<td>"+moneyFormat(prices[i].IOTBTC)+"</td>" : iotbtc += "<td></td>";
-                    typeof prices[i].IOTETH != 'undefined' ? ioteth += "<td>"+moneyFormat(prices[i].IOTETH)+"</td>" : ioteth += "<td></td>";
+                    typeof prices[i].IOTAUSD != 'undefined' ? iotausd += "<td>"+moneyFormat(prices[i].IOTAUSD)+"</td>" : iotausd += "<td></td>";
+                    typeof prices[i].IOTAUSDT != 'undefined' ? iotausdt += "<td>"+moneyFormat(prices[i].IOTAUSDT)+"</td>" : iotausdt += "<td></td>";
+                    typeof prices[i].IOTAEUR != 'undefined' ? iotaeur += "<td>"+moneyFormat(prices[i].IOTAEUR)+"</td>" : iotaeur += "<td></td>";
+                    typeof prices[i].IOTABTC != 'undefined' ? iotabtc += "<td>"+moneyFormat(prices[i].IOTABTC)+"</td>" : iotabtc += "<td></td>";
+                    typeof prices[i].IOTAETH != 'undefined' ? iotaeth += "<td>"+moneyFormat(prices[i].IOTAETH)+"</td>" : iotaeth += "<td></td>";
                     typeof prices[i].EOSUSD != 'undefined' ? eosusd += "<td>"+moneyFormat(prices[i].EOSUSD)+"</td>" : eosusd += "<td></td>";
                     typeof prices[i].EOSUSDT != 'undefined' ? eosusdt += "<td>"+moneyFormat(prices[i].EOSUSDT)+"</td>" : eosusdt += "<td></td>";
                     typeof prices[i].EOSEUR != 'undefined' ? eoseur += "<td>"+moneyFormat(prices[i].EOSEUR)+"</td>" : eoseur += "<td></td>";
@@ -374,8 +371,6 @@
                     typeof prices[i].DOGEUSD != 'undefined' ? dogeusd += "<td>"+moneyFormat(prices[i].DOGEUSD)+"</td>" : dogeusd += "<td></td>";
                     typeof prices[i].DOGEUSDT != 'undefined' ? dogeusdt += "<td>"+moneyFormat(prices[i].DOGEUSDT)+"</td>" : dogeusdt += "<td></td>";
                     typeof prices[i].USDTUSD != 'undefined' ? usdtusd += "<td>"+moneyFormat(prices[i].USDTUSD)+"</td>" : usdtusd += "<td></td>";
-                    typeof prices[i].IOTABTC != 'undefined' ? iotabtc += "<td>"+moneyFormat(prices[i].IOTABTC)+"</td>" : iotabtc += "<td></td>";
-                    typeof prices[i].IOTAETH != 'undefined' ? iotaeth += "<td>"+moneyFormat(prices[i].IOTAETH)+"</td>" : iotaeth += "<td></td>";
 
 
                 }
@@ -427,11 +422,11 @@
                 $('#XRPEUR').html(xrpeur);
                 $('#XRPBTC').html(xrpbtc);
                 $('#XRPETH').html(xrpeth);
-                $('#IOTUSD').html(iotusd);
-                $('#IOTUSDT').html(iotusdt);
-                $('#IOTEUR').html(ioteur);
-                $('#IOTBTC').html(iotbtc);
-                $('#IOTETH').html(ioteth);
+                $('#IOTAUSD').html(iotausd);
+                $('#IOTAUSDT').html(iotausdt);
+                $('#IOTAEUR').html(iotaeur);
+                $('#IOTABTC').html(iotabtc);
+                $('#IOTAETH').html(iotaeth);
                 $('#EOSUSD').html(eosusd);
                 $('#EOSUSDT').html(eosusdt);
                 $('#EOSEUR').html(eoseur);
@@ -442,8 +437,6 @@
                 $('#DOGEUSD').html(dogeusd);
                 $('#DOGEUSDT').html(dogeusdt);
                 $('#USDTUSD').html(usdtusd);
-                $('#IOTABTC').html(iotabtc);
-                $('#IOTAETH').html(iotaeth);
 
 
                 console.log('table updated');

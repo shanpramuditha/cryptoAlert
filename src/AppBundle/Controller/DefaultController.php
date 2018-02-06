@@ -309,9 +309,8 @@ class DefaultController extends Controller
             'ADABTC'=>'ADABTC',
             'XMRETH'=>'XMRETH','XMRBTC'=>'XMRBTC',
             'LTCETH'=>'LTCETH','LTCUSDT'=>'LTCUSDT',
-            'IOTBTC'=>'IOTABTC','IOTETH'=>'IOTAETH',
-            'ETCETH'=>'ETCETH',
             'IOTABTC'=>'IOTABTC','IOTAETH'=>'IOTAETH',
+            'ETCETH'=>'ETCETH',
 
             );
         $response = array();
