@@ -231,8 +231,8 @@
                         cache: false,
                         success: function(data){
                             console.log(data);
-                        },error:function (err) {
-                            alert(err);
+                        },error:function (xhr, status, error) {
+                            alert(error);
                         }
                     });
                     console.log(email);
