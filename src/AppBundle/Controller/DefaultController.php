@@ -356,7 +356,7 @@ class DefaultController extends Controller
             'BNTUSD'=>'BNTUSD',
             'XRPBTC'=>'XRPBTC',
             'EOSETH'=>'EOSETH','EOSBTC'=>'EOSBTC','EOSUSDT'=>'EOSUSD',
-            'BTGUSD'=>'BTGUSD',
+            'BTGUSDT'=>'BTGUSD',
             'DSHUSDT'=>'DASHUSD','DSHBTC'=>'DASHBTC','DSHETH'=>'DASHETH',
             'LTCUSDT'=>'LTCUSD','LTCBTC'=>'LTCBTC',
             'XMRUSDT'=>'XMRUSD','XMRBTC'=>'XMRBTC','XMRETH'=>'XMRETH',
