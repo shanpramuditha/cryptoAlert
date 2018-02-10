@@ -154,7 +154,21 @@ class DefaultController extends Controller
      * @Route("/api/bittrex",name="bittrex")
      */
     public function bittrex(Request $request){
-        $pairs = array('BTCUSD'=>'USDT-BTC','ETHUSD'=>'USDT-ETH','BTGUSD'=>'USDT-BTG','LTCUSD'=>'USDT-LTC','XMRUSD'=>'USDT-XMR','XRPUSD'=>'USDT-XRP');
+        $pairs = array(
+            'LTCBTC'=>'BTC-LTC','LTCETH'=>'ETH-LTC','LTCUSDT'=>'USDT-LTC',
+            'DOGEBTC'=>'BTC-DOGE',
+            'DSHBTC'=>'BTC-DASH','DSHETH'=>'ETH-DASH','DSHUSDT'=>'USDT-DASH',
+            'XMRBTC'=>'BTC-XMR','XMRETH'=>'ETH-XMR','XMRUSDT'=>'USDT-XMR',
+            'XRPBTC'=>'BTC-XRP','XRPUSDT'=>'USDT-XRP',
+            'ETHBTC'=>'BTC-ETH',
+            'BTCUSDT'=>'USDT-BTC',
+            'ETCBTC'=>'BTC-ETC','ETCETH'=>'ETH-ETC',
+            'ZECBTC'=>'BTC-ZEC','ZECETH'=>'ETH-ZEC','ZECUSDT'=>'USDT-ZEC',
+            'ETHUSDT'=>'USDT-ETH',
+            'ETCUSDT'=>'USDT-ETC',
+            'ADABTC'=>'BTC-ADA',
+            'BTGBTC'=>'BTC-BTG',
+        );
         $response = array();
         foreach ($pairs as $key=>$pair){
             $response[$key] = (float)$this->curl("https://bittrex.com/api/v1.1/public/getticker?market=".$pair)['result']['Last'];
@@ -539,16 +553,100 @@ class DefaultController extends Controller
 
     }
 
+    /**
+     * @Route("/api/yobit",name="yobit")
+     */
+    public function yobit(Request $request){
+        $pairs = array(
+            'LTCBTC'=>'ltc_btc','LTCETH'=>'ltc_eth',
+            'DSHBTC'=>'dash_btc','DSHETH'=>'dash_eth','DSHUSD'=>'dash_usd',
+            'DOGEBTC'=>'doge_btc','DOGEUSD'=>'doge_usd',
+            'ZECBTC'=>'zec_btc','ZECETH'=>'zec_eth','ZECUSD'=>'zec_usd',
+            'EOSBTC'=>'eos_btc','EOSETH'=>'eos_eth','EOSUSD'=>'eos_usd',
+            'ETCETH'=>'etc_eth','ETCBTC'=>'etc_btc',
+            'BTGBTC'=>'btg_btc','BTGUSD'=>'btg_usd',
+            'ETHBTC'=>'eth_btc','ETHUSD'=>'eth_usd',
+            'BTCUSD'=>'btc_usd',
+            'LTCUSD'=>'ltc_usd',
+            'ETCUSD'=>'etc_usd',
 
 
+        );
 
+        $parameter = implode("-",$pairs);
+        $response = array();
+        $return = $this->curl("https://yobit.net/api/3/ticker/".$parameter);
+        foreach ($pairs as $key=>$pair) {
+            $response[$key] = (float)$return[$pair]['last'];
+        }
+        return new JsonResponse($response);
+    }
 
+    /**
+     * @Route("/api/shapeshift",name="shapeshift")
+     */
+    public function shapeshift(Request $request){
+        $pairs = array(
+            'DOGEBTC'=>'DOGE_BTC',
+            'DSHETH'=>'DASH_ETH','DSHBTC'=>'DASH_BTC',
+            'LTCETH'=>'LTC_ETH','LTCBTC'=>'LTC_BTC',
+            'ETHLTC'=>'ETH_LTC','ETHBTC'=>'ETH_BTC',
+            'XMRETH'=>'XMR_ETH','XMRBTC'=>'XMR_BTC',
+            'XRPBTC'=>'XRP_BTC',
+            'ZECBTC'=>'ZEC_BTC','ZECETH'=>'ZEC_ETH',
+            'ETCETH'=>'ETC_ETH','ETCBTC'=>'ETC_BTC',
+            'BCHETH'=>'BCH_ETH','BCHBTC'=>'BCH_BTC',
+            'EOSETH'=>'EOS_ETH','EOSBTC'=>'EOS_BTC',
+            'BTGBTC'=>'BTG_BTC'
+            );
+        $response = array();
+        foreach ($pairs as $key => $pair){
+            $response[$key] = (float)$this->curl("https://shapeshift.io/rate/".$pair)['rate'];
+        }
 
+        return new JsonResponse($response);
+    }
 
+    /**
+     * @Route("/api/bitcoincoid",name="bitcoincoid")
+     */
+    public function bitcoincoid(Request $request){
+        $pairs = array(
+            'BTCIDR'=>'btc_idr',
+            'BCHIDR'=>'bch_idr',
+            'BTGIDR'=>'btg_idr',
+            'ETHIDR'=>'eth_idr',
+            'ETCIDR'=>'etc_idr',
+            'LTCIDR'=>'ltc_idr',
+            'XRPIDR'=>'xrp_idr',
+//            'DSHBTC'=>'dash_btc',
+            'DOGEBTC'=>'doge_btc',
+            'ETHBTC'=>'eth_btc',
+            'LTCBTC'=>'ltc_btc',
+            'XRPBTC'=>'xrp_btc',
+        );
+        $response = array();
+        foreach ($pairs as $key=>$pair){
+            $response[$key] = (float)$this->curl("https://vip.bitcoin.co.id/api/".$pair."/ticker")['ticker']['last'];
+        }
 
+        return new JsonResponse($response);
+    }
 
-
-
+    /**
+     * @Route("/api/bxinth",name="bxinth")
+     */
+    public function bxinth(Request $request){
+        $pairs = array('BTCTHB'=>'1','LTCBTC'=>'2','DOGEBTC'=>'4','ZECBTC'=>'8','ETHBTC'=>'20',
+            'ETHTHB'=>'21','DASHTHB'=>'22','XRPTHB'=>'25','BCHTHB'=>'27','LTCTHB'=>'30',
+            );
+        $response = array();
+        $return = $this->curl("https://bx.in.th/api/");
+        foreach ($pairs as $key=>$pair){
+            $response[$key] = $return[$pair]['last_price'];
+        }
+        return new JsonResponse($response);
+    }
 
     /**
      * @param $url
