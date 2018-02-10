@@ -189,12 +189,12 @@
                 var diff;
                 if(first>second){
                     diff = ((first-second)/second)*100;
-                    if(diff>limit & diff < 100000){
+                    if(diff != 0 & diff>limit & diff < 100000){
                         return [first,second,1,diff]
                     }
                 }else{
                     diff = ((second-first)/first)*100;
-                    if(diff>limit){
+                    if(diff != 0 & diff>limit){
                         return [first,second,2,diff]
                     }
                 }
@@ -356,9 +356,9 @@
                     typeof prices[i].ETHEUR != 'undefined' ? etheur += "<td>"+moneyFormat(prices[i].ETHEUR)+"</td>" : etheur += "<td></td>";
                     typeof prices[i].ETHBTC != 'undefined' ? ethbtc += "<td>"+moneyFormat(prices[i].ETHBTC)+"</td>" : ethbtc += "<td></td>";
                     typeof prices[i].ETHLTC != 'undefined' ? ethltc += "<td>"+moneyFormat(prices[i].ETHLTC)+"</td>" : ethltc += "<td></td>";
-                    typeof prices[i].ETHZAR != 'undefined' ? ethzar += "<td>"+moneyFormat(prices[i].ETHZAR)+"</td>" : ethltc += "<td></td>";
-                    typeof prices[i].ETHIDR != 'undefined' ? ethidr += "<td>"+moneyFormat(prices[i].ETHIDR)+"</td>" : ethltc += "<td></td>";
-                    typeof prices[i].ETHTHB != 'undefined' ? eththb += "<td>"+moneyFormat(prices[i].ETHTHB)+"</td>" : ethltc += "<td></td>";
+                    typeof prices[i].ETHZAR != 'undefined' ? ethzar += "<td>"+moneyFormat(prices[i].ETHZAR)+"</td>" : ethzar += "<td></td>";
+                    typeof prices[i].ETHIDR != 'undefined' ? ethidr += "<td>"+moneyFormat(prices[i].ETHIDR)+"</td>" : ethidr += "<td></td>";
+                    typeof prices[i].ETHTHB != 'undefined' ? eththb += "<td>"+moneyFormat(prices[i].ETHTHB)+"</td>" : eththb += "<td></td>";
                     typeof prices[i].BCHUSD != 'undefined' ? bchusd += "<td>"+moneyFormat(prices[i].BCHUSD)+"</td>" : bchusd += "<td></td>";
                     typeof prices[i].BCHUSDT != 'undefined' ? bchusdt += "<td>"+moneyFormat(prices[i].BCHUSDT)+"</td>" : bchusdt += "<td></td>";
                     typeof prices[i].BCHEUR != 'undefined' ? bcheur += "<td>"+moneyFormat(prices[i].BCHEUR)+"</td>" : bcheur += "<td></td>";
