@@ -187,18 +187,19 @@
 
             function compare(first,second,limit) {
                 var diff;
-                if(first>second){
-                    diff = ((first-second)/second)*100;
-                    if(diff != 0 & diff>limit & diff < 100000){
-                        return [first,second,1,diff]
-                    }
-                }else{
-                    diff = ((second-first)/first)*100;
-                    if(diff != 0 & diff>limit){
-                        return [first,second,2,diff]
+                if(first != 0 && second != 0){
+                    if(first>second){
+                        diff = ((first-second)/second)*100;
+                        if(parseInt(diff) != 0 && diff>limit && diff < 100000){
+                            return [first,second,1,diff]
+                        }
+                    }else{
+                        diff = ((second-first)/first)*100;
+                        if(parseInt(diff) != 0 && diff>limit){
+                            return [first,second,2,diff]
+                        }
                     }
                 }
-
                 return false
 
             }
