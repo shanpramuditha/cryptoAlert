@@ -536,7 +536,7 @@
                 $.ajax({type: "GET", url: "{{ url('gate') }}", cache: false, success: function(data){ prices[15] = data }});
                 $.ajax({type: "GET", url: "{{ url('coninsBank') }}", cache: false, success: function(data){ prices[16] = data }});
                 $.ajax({type: "GET", url: "{{ url('bitflyerLightning') }}", cache: false, success: function(data){ prices[17] = data }});
-                {#$.ajax({type: "GET", url: "{{ url('') }}", cache: false, success: function(data){ prices[18] = data }});#}
+                $.ajax({type: "GET", url: "{{ url('ice3x') }}", cache: false, success: function(data){ prices[18] = data }});
                 $.ajax({type: "GET", url: "{{ url('yobit') }}", cache: false, success: function(data){ prices[19] = data }});
                 $.ajax({type: "GET", url: "{{ url('shapeshift') }}", cache: false, success: function(data){ prices[20] = data }});
                 $.ajax({type: "GET", url: "{{ url('bittrex') }}", cache: false, success: function(data){ prices[21] = data }});

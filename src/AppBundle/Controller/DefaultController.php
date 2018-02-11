@@ -649,6 +649,23 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/api/ice3x",name="ice3x")
+     */
+    public function ice3x(Request $request){
+        $pairs = array('BTCZAR'=>'btc\/zar','LTCZAR'=>'ltc\/zar','ETHZAR'=>'eth\/zar','ETHBTC'=>'eth\/btc','BCHZAR'=>'bch\/zar');
+        $response = array();
+        $return = $this->curl("https://ice3x.com/api/v1/stats/marketdepthfull");
+        foreach($return['response']['entities'] as $item){
+            foreach ($pairs as $key=>$pair){
+                if($item['pair_name'] == $pair){
+                    $response[$key] = $item['last_price'];
+                }
+            }
+        }
+        return new JsonResponse($response);
+    }
+
+    /**
      * @param $url
      * @return mixed
      */
@@ -702,5 +719,21 @@ class DefaultController extends Controller
 
             return new Response($result);
         }
+
+    /**
+     * @Route("/test", name="testfunction")
+     */
+    public function testAction(Request $request){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; ICE3X PHP client; '.php_uname('s').'; PHP/'.phpversion().')');
+        curl_setopt($ch, CURLOPT_URL, 'https://ice3x.com/api/v1/stats/marketdepthbtcav');
+        $result = curl_exec($ch);
+
+        var_dump($result);
+        exit;
+    }
+
+
 
 }
