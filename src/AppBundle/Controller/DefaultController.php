@@ -652,7 +652,7 @@ class DefaultController extends Controller
      * @Route("/api/ice3x",name="ice3x")
      */
     public function ice3x(Request $request){
-        $pairs = array('BTCZAR'=>'btc\/zar','LTCZAR'=>'ltc\/zar','ETHZAR'=>'eth\/zar','ETHBTC'=>'eth\/btc','BCHZAR'=>'bch\/zar');
+        $pairs = array('BTCZAR'=>'btc/zar','LTCZAR'=>'ltc/zar','ETHZAR'=>'eth/zar','ETHBTC'=>'eth/btc','BCHZAR'=>'bch/zar');
         $response = array();
         $return = $this->curl("https://ice3x.com/api/v1/stats/marketdepthfull");
         foreach($return['response']['entities'] as $item){
