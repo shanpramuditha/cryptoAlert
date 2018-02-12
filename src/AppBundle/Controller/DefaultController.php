@@ -665,6 +665,21 @@ class DefaultController extends Controller
         return new JsonResponse($response);
     }
 
+
+    /**
+     * @Route("/api/huobi",name="huobi")
+     */
+    public function huobi(Request $request){
+        $pairs = array('LTCBTC'=>'ltcbtc','ETHBTC'=>'ethbtc','ETCBTC'=>'etcbtc');
+        $response = array();
+        foreach ($pairs as $key=>$pair) {
+            $return = $this->curl("http://api.huobi.pro/market/trade?symbol=".$pair);
+            $response[$key] = $return['tick']['data'][0]['price'];
+        }
+
+        return new JsonResponse($response);
+    }
+
     /**
      * @param $url
      * @return mixed
