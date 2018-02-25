@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\CurrencyData;
+use AppBundle\Repository\CurrencyRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,6 +23,27 @@ class DefaultController extends Controller
         ));
     }
 
+    private function flush(){
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+    }
+
+    private function addToDatabase($exchange,$currency,$last,$bid,$ask){
+        $em = $this->getDoctrine()->getManager();
+        $data = $em->getRepository('AppBundle:CurrencyData')->findOneBy(array('exchange'=>$exchange,'currency'=>$currency));
+        if($data == null){
+            $data = new CurrencyData();
+            $data->setExchange($exchange);
+            $data->setCurrency($currency);
+        }
+
+        $data->setLast($last);
+        $data->setAsk($ask);
+        $data->setBid($bid);
+        $data->setDatetime(new \DateTime('now'));
+        $em->persist($data);
+    }
+
     /**
      * @Route("/api/bitstamp",name="bitstamp")
      */
@@ -32,8 +55,15 @@ class DefaultController extends Controller
             'XRPUSD'=>'xrpusd','XRPEUR'=>'erpeur','XRPBTC'=>'xrpbtc');
         $response = array();
         foreach ($pairs as $key => $pair){
-            $response[$key] = (float)$this->curl("https://www.bitstamp.net/api/v2/ticker/".$pair."/")['last'];
+            $data = $this->curl("https://www.bitstamp.net/api/v2/ticker/".$pair."/");
+            $response[$key] = (float)$data['last'];
+            $last = (float)$data['last'];
+            $bid = (float)$data['bid'];
+            $ask = (float)$data['ask'];
+            $this->addToDatabase('bitstamp',$key,$last,$bid,$ask);
         }
+
+        $this->flush();
 
         return new JsonResponse($response);
 
@@ -51,8 +81,15 @@ class DefaultController extends Controller
             );
         $response = array();
         foreach ($pairs as $key => $pair){
-            $response[$key] = (float)$this->curl("https://bitbay.net/API/Public/".$pair."/ticker.json")['last'];
+            $data = $this->curl("https://bitbay.net/API/Public/".$pair."/ticker.json");
+            $response[$key] = (float)$data['last'];
+            $last = (float)$data['last'];
+            $bid = (float)$data['bid'];
+            $ask = (float)$data['ask'];
+            $this->addToDatabase('bitpay',$key,$last,$bid,$ask);
+
         }
+        $this->flush();
         return new JsonResponse($response);
 
     }
@@ -79,8 +116,13 @@ class DefaultController extends Controller
 
         foreach ($pairs as $key=>$pair) {
             $response[$key] = (float)$return[$pair]['c'][0];
+            $data = $return[$pair];
+            $last = (float)$data['c'][0];
+            $bid = (float)$data['b'][0];
+            $ask = (float)$data['a'][0];
+            $this->addToDatabase('bitpay',$key,$last,$bid,$ask);
         }
-
+        $this->flush();
         return new JsonResponse($response);
     }
 
@@ -95,10 +137,15 @@ class DefaultController extends Controller
         );
         $response = array();
         foreach ($pairs as $key=>$pair){
-//            var_dump($this->curl("https://api.gdax.com/products/".$pair."/ticker"));
-//            exit;
-            $response[$key] = $this->curl("https://api.gdax.com/products/".$pair."/ticker")['price'];
+            $data = $this->curl("https://api.gdax.com/products/".$pair."/ticker");
+            $response[$key] = $data['price'];
+            $last = (float)$data['price'];
+            $bid = (float)$data['bid'];
+            $ask = (float)$data['ask'];
+            $this->addToDatabase('gdax',$key,$last,$bid,$ask);
         }
+
+        $this->flush();
 
         return new JsonResponse($response);
     }
@@ -123,8 +170,15 @@ class DefaultController extends Controller
         $return = $this->curl("https://poloniex.com/public?command=returnTicker");
         $response = array();
         foreach ($pairs as $key =>$pair){
-            $response[$key] = (float)$return[$pair]['last'];
+            $data = $return[$pair];
+            $response[$key] = (float)$data['last'];
+            $last = (float)$data['last'];
+            $bid = (float)$data['highestBid'];
+            $ask = (float)$data['lowestAsk'];
+            $this->addToDatabase('poloniex',$key,$last,$bid,$ask);
         }
+
+        $this->flush();
         return new JsonResponse($response);
     }
 
@@ -144,7 +198,12 @@ class DefaultController extends Controller
         );
         $response = array();
         foreach ($pairs as $key => $pair){
-            $response[$key] = (float)$this->curl("https://api.bitfinex.com/v1/pubticker/".$pair)['last_price'];
+            $data = $this->curl("https://api.bitfinex.com/v1/pubticker/".$pair);
+            $response[$key] = (float)$data['last_price'];
+            $last = (float)$data['last_price'];
+            $bid = (float)$data['bid'];
+            $ask = (float)$data['ask'];
+            $this->addToDatabase('bitfinex',$key,$last,$bid,$ask);
             sleep(1);
         }
         return new JsonResponse($response);
@@ -171,9 +230,14 @@ class DefaultController extends Controller
         );
         $response = array();
         foreach ($pairs as $key=>$pair){
-            $response[$key] = (float)$this->curl("https://bittrex.com/api/v1.1/public/getticker?market=".$pair)['result']['Last'];
+            $data = $this->curl("https://bittrex.com/api/v1.1/public/getticker?market=".$pair)['result'];
+            $response[$key] = (float)$data['Last'];
+            $last = (float)$data['Last'];
+            $bid = (float)$data['Bid'];
+            $ask = (float)$data['Ask'];
+            $this->addToDatabase('bittrex',$key,$last,$bid,$ask);
         }
-
+        $this->flush();
         return new JsonResponse($response);
     }
 
@@ -181,60 +245,28 @@ class DefaultController extends Controller
      * @Route("/api/cex",name="cex")
      */
     public function cex(Request $request){
-//        $pairs = array('USD', 'BTC');
-//        $parameter = 'pair='.implode("/",$pairs);
+        $pairs = array(
+            'BTCUSD'=>'BTC/USD','BTCEUR'=>'BTC/EUR',
+            'BCHUSD'=>'BCH/USD','BCHEUR'=>'BCH/EUR','BCHBTC'=>'BCH/BTC',
+            'ETHUSD'=>'ETH/USD','ETHEUR'=>'ETH/EUR','ETHBTC'=>'ETH/BTC',
+            'BTGUSD'=>'BTG/USD','BTGEUR'=>'BTG/EUR','BTGBTC'=>'BTG/BTC',
+            'DSHUSD'=>'DASH/USD','DSHEUR'=>'DASH/EUR','DSHBTC'=>'DASH/BTC',
+            'XRPUSD'=>'XRP/USD','XRPEUR'=>'XRP/EUR','XRPBTC'=>'XRP/BTC',
+            'ZECUSD'=>'ZEC/USD','ZECEUR'=>'ZEC/EUR','ZECBTC'=>'ZEC/BTC',
+
+        );
+
         $response = array();
-        foreach ($this->curl("https://cex.io/api/last_prices/USD")['data'] as $row){
-            if($row['symbol1']=='BTC'){
-                $response['BTCUSD'] = (float)$row['lprice'];
-            }elseif ($row['symbol1']=='BCH'){
-                $response['BCHUSD'] = (float)$row['lprice'];
-            }elseif ($row['symbol1']=='ETH'){
-                $response['ETHUSD'] = (float)$row['lprice'];
-            }elseif ($row['symbol1']=='BTG'){
-                $response['BTGUSD'] = (float)$row['lprice'];
-            }elseif ($row['symbol1']=='DASH'){
-                $response['DSHUSD'] = (float)$row['lprice'];
-            }elseif ($row['symbol1']=='XRP'){
-                $response['XRPUSD'] = (float)$row['lprice'];
-            }elseif ($row['symbol1']=='ZEC'){
-                $response['ZECUSD'] = (float)$row['lprice'];
-            }
-        }
 
-        foreach ($this->curl("https://cex.io/api/last_prices/EUR")['data'] as $row){
-            if($row['symbol1']=='BTC'){
-                $response['BTCEUR'] = (float)$row['lprice'];
-            }elseif ($row['symbol1']=='BCH'){
-                $response['BCHEUR'] = (float)$row['lprice'];
-            }elseif ($row['symbol1']=='ETH'){
-                $response['ETHEUR'] = (float)$row['lprice'];
-            }elseif ($row['symbol1']=='BTG'){
-                $response['BTGEUR'] = (float)$row['lprice'];
-            }elseif ($row['symbol1']=='DASH'){
-                $response['DSHEUR'] = (float)$row['lprice'];
-            }elseif ($row['symbol1']=='XRP'){
-                $response['XRPEUR'] = (float)$row['lprice'];
-            }elseif ($row['symbol1']=='ZEC'){
-                $response['ZECEUR'] = (float)$row['lprice'];
-            }
+        foreach ($pairs as $key=>$pair){
+            $data = $this->curl("https://cex.io/api/ticker/".$pair);
+            $response[$key] = (float)$data['last'];
+            $last = (float)$data['last'];
+            $bid = (float)$data['bid'];
+            $ask = (float)$data['ask'];
+            $this->addToDatabase('cex',$key,$last,$bid,$ask);
         }
-
-        foreach ($this->curl("https://cex.io/api/last_prices/BTC")['data'] as $row){
-            if ($row['symbol1']=='BCH'){
-                $response['BCHBTC'] = (float)$row['lprice'];
-            }elseif ($row['symbol1']=='ETH'){
-                $response['ETHBTC'] = (float)$row['lprice'];
-            }elseif ($row['symbol1']=='BTG'){
-                $response['BTGBTC'] = (float)$row['lprice'];
-            }elseif ($row['symbol1']=='DASH'){
-                $response['DSHBTC'] = (float)$row['lprice'];
-            }elseif ($row['symbol1']=='XRP'){
-                $response['XRPBTC'] = (float)$row['lprice'];
-            }elseif ($row['symbol1']=='ZEC'){
-                $response['ZECBTC'] = (float)$row['lprice'];
-            }
-        }
+        $this->flush();
 
         return new JsonResponse($response);
     }
@@ -248,7 +280,12 @@ class DefaultController extends Controller
             );
         $response = array();
         foreach ($pairs as $key=>$pair){
-            $response[$key] = $this->curl("https://api.gemini.com/v1/pubticker/".$pair)['last'];
+            $data = $this->curl("https://api.gemini.com/v1/pubticker/".$pair);
+            $response[$key] = $data['last'];
+            $last = (float)$data['last'];
+            $bid = (float)$data['bid'];
+            $ask = (float)$data['ask'];
+            $this->addToDatabase('gemini',$key,$last,$bid,$ask);
         }
         return new JsonResponse($response);
     }
@@ -333,6 +370,10 @@ class DefaultController extends Controller
             foreach ($pairs as $key=>$pair){
                 if($price['symbol'] == $pair){
                     $response[$key] = (float)$price['price'];
+//                    $last = (float)$price['price'];
+//                    $bid = (float)$price['bid'];
+//                    $ask = (float)$price['ask'];
+//                    $this->addToDatabase('gemini',$key,$last,$bid,$ask);
                 }
 
             }
@@ -354,8 +395,15 @@ class DefaultController extends Controller
         $response = array();
         $return = $this->curl("https://api.liqui.io/api/3/ticker/".$parameter);
         foreach ($pairs as $key=>$pair) {
-            $response[$key] = (float)$return[$pair]['last'];
+            $data = $return[$pair];
+            $response[$key] = (float)$data['last'];
+            $last = (float)$data['last'];
+            $bid = (float)$data['buy'];
+            $ask = (float)$data['sell'];
+            $this->addToDatabase('liqui',$key,$last,$bid,$ask);
         }
+
+        $this->flush();
         return new JsonResponse($response);
     }
 
@@ -383,11 +431,17 @@ class DefaultController extends Controller
             foreach ($pairs as $key=>$pair){
                 if($price['symbol'] == $pair){
                     $response[$key] = (float)$price['last'];
+                    $last = (float)$price['last'];
+                    $bid = (float)$price['bid'];
+                    $ask = (float)$price['ask'];
+                    $this->addToDatabase('hitbtc',$key,$last,$bid,$ask);
                 }
 
             }
 
         }
+
+        $this->flush();
         return new JsonResponse($response);
     }
 
@@ -409,11 +463,18 @@ class DefaultController extends Controller
             foreach ($pairs as $key=>$pair){
                 if($price['symbol'] == $pair){
                     $response[$key] = (float)$price['last'];
+                    $last = (float)$price['last'];
+                    $bid = (float)$price['best_bid'];
+                    $ask = (float)$price['best_ask'];
+                    $this->addToDatabase('livecoin',$key,$last,$bid,$ask);
                 }
 
             }
 
         }
+
+        $this->flush();
+
         return new JsonResponse($response);
     }
 
@@ -433,8 +494,15 @@ class DefaultController extends Controller
         $response = array();
         $return = $this->curl("https://wex.nz/api/3/ticker/".$parameter);
         foreach ($pairs as $key=>$pair) {
-            $response[$key] = (float)$return[$pair]['last'];
+            $data = $return[$pair];
+            $response[$key] = (float)$data['last'];
+            $last = (float)$data['last'];
+            $bid = (float)$data['buy'];
+            $ask = (float)$data['sell'];
+            $this->addToDatabase('wex',$key,$last,$bid,$ask);
         }
+
+        $this->flush();
         return new JsonResponse($response);
     }
 
@@ -462,13 +530,20 @@ class DefaultController extends Controller
         $response = array();
         $return = $this->curl("http://data.gate.io/api2/1/tickers");
         foreach ($pairs as $key=>$pair) {
-            $response[$key] = (float)$return[$pair]['last'];
+            $data = $return[$pair];
+            $response[$key] = (float)$data['last'];
+            $last = (float)$data['last'];
+            $bid = (float)$data['highestBid'];
+            $ask = (float)$data['lowestAsk'];
+            $this->addToDatabase('gate',$key,$last,$bid,$ask);
         }
+
+        $this->flush();
         return new JsonResponse($response);
     }
 
     /**
-     * @Route("/api/coinsBank",name="coninsBank")
+     * @Route("/api/coinsBank",name="coinsBank")
      */
     public function coinsBank(Request $request){
         $pairs = array('BTCEUR'=>'BTCEUR',
@@ -476,16 +551,22 @@ class DefaultController extends Controller
         );
 
         $response = array();
-        $return = $this->curl("https://coinsbank.com/api/bitcoincharts/ticker/");
+            $return = $this->curl("https://coinsbank.com/api/bitcoincharts/ticker/");
         foreach ($return as $price){
             foreach ($pairs as $key=>$pair){
                 if($price['name'] == $pair){
                     $response[$key] = (float)$price['last'];
+                    $last = (float)$price['last'];
+                    $bid = (float)$price['buy'];
+                    $ask = (float)$price['sell'];
+                    $this->addToDatabase('coinsBank',$key,$last,$bid,$ask);
                 }
 
             }
 
         }
+
+        $this->flush();
         return new JsonResponse($response);
     }
 
@@ -500,11 +581,17 @@ class DefaultController extends Controller
             foreach ($pairs as $key=>$pair){
                 if($price['Symbol'] == $pair){
                     $response[$key] = (float)$price['LastBuyPrice'];
+                    $last = (float)$price['last'];
+                    $bid = (float)$price['BestBid'];
+                    $ask = (float)$price['BestAsk'];
+                    $this->addToDatabase('xbtce',$key,$last,$bid,$ask);
                 }
 
             }
 
         }
+
+        $this->flush();
         return new JsonResponse($response);
     }
 
@@ -519,8 +606,15 @@ class DefaultController extends Controller
         );
         $response = array();
         foreach ($pairs as $key => $pair){
-            $response[$key] = (float)$this->curl("https://api.bitflyer.jp/v1/ticker?product_code=".$pair)['ltp'];
+            $data = $this->curl("https://api.bitflyer.jp/v1/ticker?product_code=".$pair);
+            $response[$key] = (float)$data['ltp'];
+            $last = (float)$data['lastPrice'];
+            $bid = (float)$data['best_bid'];
+            $ask = (float)$data['best_ask'];
+            $this->addToDatabase('bitflyerLightning',$key,$last,$bid,$ask);
         }
+
+        $this->flush();
 
         return new JsonResponse($response);
     }
@@ -532,8 +626,19 @@ class DefaultController extends Controller
         $pairs = array('BTCUSD'=>'XBTUSD','BTCEUR'=>'XBTEUR',);
         $response = array();
         foreach ($pairs as $key => $pair){
-            $response[$key] = (float)$this->curl("https://api.itbit.com/v1/markets/".$pair."/ticker")['lastPrice'];
+            $data = $this->curl("https://api.itbit.com/v1/markets/".$pair."/ticker");
+            $response[$key] = (float)$data['lastPrice'];
+            $last = (float)$data['lastPrice'];
+            $bid = (float)$data['bid'];
+            $ask = (float)$data['ask'];
+            $this->addToDatabase('xbtce',$key,$last,$bid,$ask);
+            $last = (float)$data['lastPrice'];
+            $bid = (float)$data['bid'];
+            $ask = (float)$data['ask'];
+            $this->addToDatabase('itbit',$key,$last,$bid,$ask);
         }
+
+        $this->flush();
 
         return new JsonResponse($response);
     }
@@ -547,8 +652,16 @@ class DefaultController extends Controller
         $response = array();
         $return = $this->curl("https://api.lakebtc.com/api_v2/ticker");
         foreach ($pairs as $key=>$pair) {
-            $response[$key] = (float)$return[$pair]['last'];
+            $data = $return[$pair];
+            $response[$key] = (float)$data['last'];
+            $last = (float)$data['last'];
+            $bid = (float)$data['bid'];
+            $ask = (float)$data['ask'];
+            $this->addToDatabase('lakebtc',$key,$last,$bid,$ask);
+
         }
+        $this->flush();
+
         return new JsonResponse($response);
 
     }
@@ -577,8 +690,15 @@ class DefaultController extends Controller
         $response = array();
         $return = $this->curl("https://yobit.net/api/3/ticker/".$parameter);
         foreach ($pairs as $key=>$pair) {
-            $response[$key] = (float)$return[$pair]['last'];
+            $data = $return[$pair];
+            $response[$key] = (float)$data['last'];
+            $last = (float)$data['last'];
+            $bid = (float)$data['buy'];
+            $ask = (float)$data['sell'];
+            $this->addToDatabase('yobit',$key,$last,$bid,$ask);
+
         }
+        $this->flush();
         return new JsonResponse($response);
     }
 
@@ -601,8 +721,18 @@ class DefaultController extends Controller
             );
         $response = array();
         foreach ($pairs as $key => $pair){
-            $response[$key] = (float)$this->curl("https://shapeshift.io/rate/".$pair)['rate'];
+            $data = $this->curl("https://shapeshift.io/rate/".$pair);
+            $response[$key] = (float)$data['rate'];
+//            $last = (float)$data['last'];
+//            $bid = (float)$data['buy'];
+//            $ask = (float)$data['sell'];
+//            $this->addToDatabase('shapeshift',$key,$last,$bid,$ask);
+
         }
+
+        //Todo find api for this
+
+//        $this->flush();
 
         return new JsonResponse($response);
     }
@@ -627,8 +757,16 @@ class DefaultController extends Controller
         );
         $response = array();
         foreach ($pairs as $key=>$pair){
-            $response[$key] = (float)$this->curl("https://vip.bitcoin.co.id/api/".$pair."/ticker")['ticker']['last'];
+            $data = $this->curl("https://vip.bitcoin.co.id/api/".$pair."/ticker")['ticker'];
+            $response[$key] = (float)$data['last'];
+            $last = (float)$data['last'];
+            $bid = (float)$data['buy'];
+            $ask = (float)$data['sell'];
+            $this->addToDatabase('bitcoincoid',$key,$last,$bid,$ask);
+
         }
+
+        $this->flush();
 
         return new JsonResponse($response);
     }
@@ -643,8 +781,15 @@ class DefaultController extends Controller
         $response = array();
         $return = $this->curl("https://bx.in.th/api/");
         foreach ($pairs as $key=>$pair){
-            $response[$key] = $return[$pair]['last_price'];
+            $data = $return[$pair];
+            $response[$key] = $data['last_price'];
+            $last = (float)$data['last_price'];
+            $bid = (float)$data['orderbook']['bids']['highbid'];
+            $ask = (float)$data['oderbook']['asks']['highbid'];
+            $this->addToDatabase('bxinth',$key,$last,$bid,$ask);
         }
+
+        $this->flush();
         return new JsonResponse($response);
     }
 
@@ -739,15 +884,36 @@ class DefaultController extends Controller
      * @Route("/test", name="testfunction")
      */
     public function testAction(Request $request){
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; ICE3X PHP client; '.php_uname('s').'; PHP/'.phpversion().')');
-        curl_setopt($ch, CURLOPT_URL, 'https://ice3x.com/api/v1/stats/marketdepthbtcav');
-        $result = curl_exec($ch);
+        $curl = curl_init();
 
-        var_dump($result);
+        $ApiKey = "C70F5136-50B9-4412-9139-A6097B3467EB";
+        $url = "https://uk1.ukvehicledata.co.uk/api/datapackage/%s?v=2&api_nullitems=1&key_vrm=%s&auth_apikey=%s";
+        $url = sprintf($url, "VehicleData", "KM14AKK", $ApiKey); // Syntax: sprintf($url, "PackageName", "VRM", ApiKey);
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET"
+        ));
+
+        $response = curl_exec($curl);
+        $error = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($error) {
+            echo "cURL Error: " . $error;
+        } else {
+            var_dump(json_decode($response, true)); // For demonstration purposes - Unserialize response & dump array contents to screen
+        }
         exit;
     }
+
+
 
 
 
