@@ -841,8 +841,8 @@ class DefaultController extends Controller
             $return = $this->curl("http://api.huobi.pro/market/detail/merged?symbol=".$pair);
             $response[$key] = $return['tick']['high'];
             $last = (float)$return['tick']['high'];
-            $bid = (float)$return['bid'][0];
-            $ask = (float)$return['ask'][0];
+            $bid = (float)$return['tick']['bid'][0];
+            $ask = (float)$return['tick']['ask'][0];
             $this->addToDatabase('huobi',$key,$last,$bid,$ask);
         }
         $this->flush();
