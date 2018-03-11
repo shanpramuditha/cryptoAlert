@@ -162,6 +162,7 @@ class DefaultController extends Controller
             $bid = (float)$data['bid'];
             $ask = (float)$data['ask'];
             $this->addToDatabase('gdax',$key,$last,$bid,$ask);
+            sleep(1);
         }
 
         $this->flush();
