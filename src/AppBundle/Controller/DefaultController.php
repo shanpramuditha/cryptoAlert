@@ -516,8 +516,8 @@ class DefaultController extends Controller
             $data = $return[$pair];
             $response[$key] = (float)$data['last'];
             $last = (float)$data['last'];
-            $bid = (float)$data['buy'];
-            $ask = (float)$data['sell'];
+            $bid = (float)$data['sell'];
+            $ask = (float)$data['buy'];
             $this->addToDatabase('wex',$key,$last,$bid,$ask);
         }
 

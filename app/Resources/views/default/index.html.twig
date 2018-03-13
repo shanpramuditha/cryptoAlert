@@ -25,31 +25,81 @@
         <thead>
         <tr>
             <th>Currency</th>
-            <th colspan="3">Bitstamp</th>
-            <th colspan="3">Kraken</th>
-            <th colspan="3">Coinbase</th>
-            <th colspan="3">Poloniex</th>
-            <th colspan="3">Bitfinex</th>
-            <th colspan="3">Gemini</th>
-            <th colspan="3">Exmo</th>
-            <th colspan="3">cex</th>
-            <th colspan="3">Livecoin</th>
-            <th colspan="3">Bitbay</th>
-            <th colspan="3">Itbit</th>
-            <th colspan="3">Hitbtc</th>
-            <th colspan="3">Liqui</th>
-            <th colspan="3">Binance</th>
-            <th colspan="3">wex</th>
-            <th colspan="3">Gate</th>
-            <th colspan="3">Coinsbank</th>
-            <th colspan="3">Bitflyer Lightning</th>
-            <th colspan="3">Huobi</th>
-            <th colspan="3">Yobit</th>
-            <th colspan="3">Shapeshift</th>
-            <th colspan="3">Bittrex</th>
-            <th colspan="3">ice3x</th>
-            <th colspan="3">bitcoin.co.id</th>
-            <th colspan="3">bx.in.th</th>
+            <th>Bitstamp</th>
+            <th>Bitstamp</th>
+            <th>Bitstamp</th>
+            <th>Kraken</th>
+            <th>Kraken</th>
+            <th>Kraken</th>
+            <th>Coinbase</th>
+            <th>Coinbase</th>
+            <th>Coinbase</th>
+            <th>Poloniex</th>
+            <th>Poloniex</th>
+            <th>Poloniex</th>
+            <th>Bitfinex</th>
+            <th>Bitfinex</th>
+            <th>Bitfinex</th>
+            <th>Gemini</th>
+            <th>Gemini</th>
+            <th>Gemini</th>
+            <th>Exmo</th>
+            <th>Exmo</th>
+            <th>Exmo</th>
+            <th>cex</th>
+            <th>cex</th>
+            <th>cex</th>
+            <th>Livecoin</th>
+            <th>Livecoin</th>
+            <th>Livecoin</th>
+            <th>Bitbay</th>
+            <th>Bitbay</th>
+            <th>Bitbay</th>
+            <th>Itbit</th>
+            <th>Itbit</th>
+            <th>Itbit</th>
+            <th>Hitbtc</th>
+            <th>Hitbtc</th>
+            <th>Hitbtc</th>
+            <th>Liqui</th>
+            <th>Liqui</th>
+            <th>Liqui</th>
+            <th>Binance</th>
+            <th>Binance</th>
+            <th>Binance</th>
+            <th>wex</th>
+            <th>wex</th>
+            <th>wex</th>
+            <th>Gate</th>
+            <th>Gate</th>
+            <th>Gate</th>
+            <th>Coinsbank</th>
+            <th>Coinsbank</th>
+            <th>Coinsbank</th>
+            <th>Bitflyer Lightning</th>
+            <th>Bitflyer Lightning</th>
+            <th>Bitflyer Lightning</th>
+            <th>Huobi</th>
+            <th>Huobi</th>
+            <th>Huobi</th>
+            <th>Yobit</th>
+            <th>Yobit</th>
+            <th>Yobit</th>
+            {#<th>Shapeshift</th>#}
+            {#<th>Shapeshift</th>#}
+            {#<th>Shapeshift</th>#}
+            <th>Bittrex</th>
+            <th>Bittrex</th>
+            <th>Bittrex</th>
+            <th>ice3x</th>
+            <th>ice3x</th>
+            <th>ice3x</th>
+            <th>bitcoin.co.id</th>
+            <th>bitcoin.co.id</th>
+            <th>bitcoin.co.id</th>
+            <th>bx.in.th</th>
+            <th>bx.in.th</th>
+            <th>bx.in.th</th>
         </tr>
         </thead>
         <tbody>
@@ -170,7 +220,7 @@
 
         #}
         $(function() {
-            var prices = new Array(25);
+            var prices = new Array(24);
             prices.fill({});
 //            setInterval(Bitfinix, 5000);
             setInterval(getData, 15000);
@@ -225,7 +275,7 @@
                 $.ajax({type: "GET", url: "{{ url('bitflyerLightning') }}", cache: false, success: function(data){  }});
                 $.ajax({type: "GET", url: "{{ url('huobi') }}", cache: false, success: function(data){  }});
                 $.ajax({type: "GET", url: "{{ url('yobit') }}", cache: false, success: function(data){  }});
-                $.ajax({type: "GET", url: "{{ url('shapeshift') }}", cache: false, success: function(data){  }});
+                {#$.ajax({type: "GET", url: "{{ url('shapeshift') }}", cache: false, success: function(data){  }});#}
                 $.ajax({type: "GET", url: "{{ url('bittrex') }}", cache: false, success: function(data){  }});
                 $.ajax({type: "GET", url: "{{ url('ice3x') }}", cache: false, success: function(data){  }});
                 $.ajax({type: "GET", url: "{{ url('bitcoincoid') }}", cache: false, success: function(data){  }});
@@ -613,11 +663,11 @@
                 $.ajax({type: "GET", url: "{{ url('data_api',{exchange:'bitflyerLightning'}) }}", cache: false, success: function(data){ prices[17] = data }});
                 $.ajax({type: "GET", url: "{{ url('data_api',{exchange:'huobi'}) }}", cache: false, success: function(data){ prices[18] = data }});
                 $.ajax({type: "GET", url: "{{ url('data_api',{exchange:'yobit'}) }}", cache: false, success: function(data){ prices[19] = data }});
-                $.ajax({type: "GET", url: "{{ url('data_api',{exchange:'shapeshift'}) }}", cache: false, success: function(data){ prices[20] = data }});
-                $.ajax({type: "GET", url: "{{ url('data_api',{exchange:'bittrex'}) }}", cache: false, success: function(data){ prices[21] = data }});
-                $.ajax({type: "GET", url: "{{ url('data_api',{exchange:'ice3x'}) }}", cache: false, success: function(data){ prices[22] = data }});
-                $.ajax({type: "GET", url: "{{ url('data_api',{exchange:'bitcoincoid'}) }}", cache: false, success: function(data){ prices[23] = data }});
-                $.ajax({type: "GET", url: "{{ url('data_api',{exchange:'bxinth'}) }}", cache: false, success: function(data){ prices[24] = data }});
+                {#$.ajax({type: "GET", url: "{{ url('data_api',{exchange:'shapeshift'}) }}", cache: false, success: function(data){ prices[20] = data }});#}
+                $.ajax({type: "GET", url: "{{ url('data_api',{exchange:'bittrex'}) }}", cache: false, success: function(data){ prices[20] = data }});
+                $.ajax({type: "GET", url: "{{ url('data_api',{exchange:'ice3x'}) }}", cache: false, success: function(data){ prices[21] = data }});
+                $.ajax({type: "GET", url: "{{ url('data_api',{exchange:'bitcoincoid'}) }}", cache: false, success: function(data){ prices[22] = data }});
+                $.ajax({type: "GET", url: "{{ url('data_api',{exchange:'bxinth'}) }}", cache: false, success: function(data){ prices[23] = data }});
             }
 
             function moneyFormat(price) {
